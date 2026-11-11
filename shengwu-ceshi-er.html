@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content="分子生物学阶段测试二互动刷题网站：选择、判断、填空、概念、简答共 104 题，题序与选项打乱，交卷后统一判分并给出解析，错题可一键重练。" />
+<link rel="icon" href="data:," />
+<title>分子生物学阶段测试二</title>
+<style>
+:root{
+--bg:#f4f6f1; --surface:#ffffff; --surface2:#eef2e8; --ink:#1c2b21; --ink2:#4a5d50;
+--line:#d8e0d2; --accent:#1d6b3c; --accent-ink:#ffffff; --accent-soft:#e3efe2;
+--amber:#9a6a00; --amber-bg:#fdf3d7; --red:#b3261e; --red-bg:#fdecea; --green-bg:#e6f4e6;
+--radius:14px; --shadow:0 1px 3px rgba(28,43,33,.08),0 4px 14px rgba(28,43,33,.05);
+}
+@media (prefers-color-scheme: dark){
+:root{
+--bg:#10160f; --surface:#1a211a; --surface2:#232b22; --ink:#e8efe6; --ink2:#a9bba6;
+--line:#33402f; --accent:#4cc273; --accent-ink:#0d1a10; --accent-soft:#22392a;
+--amber:#e0b34c; --amber-bg:#3a3013; --red:#ff8a80; --red-bg:#3d1d1a; --green-bg:#1e3524;
+--shadow:0 1px 3px rgba(0,0,0,.4);
+}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+font-size:16px;line-height:1.65;-webkit-text-size-adjust:100%}
+.wrap{max-width:880px;margin:0 auto;padding:20px 16px 64px}
+h1{font-size:28px;line-height:1.25;margin:6px 0 8px;letter-spacing:.01em}
+h2{font-size:21px;margin:0 0 6px}
+h3{font-size:17px;margin:0 0 4px}
+p{margin:0 0 10px}
+.sub{color:var(--ink2);font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}
+.chip{background:var(--surface2);border:1px solid var(--line);border-radius:999px;
+padding:4px 12px;font-size:13px;color:var(--ink2)}
+.chip b{color:var(--ink)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+box-shadow:var(--shadow);padding:18px;margin:0 0 16px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 0 16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center}
+.stat .n{font-size:22px;font-weight:700;line-height:1.2}
+.stat .l{font-size:12px;color:var(--ink2)}
+@media (max-width:560px){.stats{grid-template-columns:repeat(3,1fr)} h1{font-size:24px}}
+.scope{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media (max-width:560px){.scope{grid-template-columns:1fr}}
+.scope-item{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface2)}
+.scope-item .t{font-weight:700;font-size:15px}
+.scope-item .d{font-size:13px;color:var(--ink2)}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+nav.toc a{color:var(--accent);text-decoration:none;border:1px solid var(--accent);
+border-radius:999px;padding:5px 14px;font-size:14px;font-weight:600;background:var(--surface)}
+nav.toc a:active{background:var(--accent-soft)}
+.btn{appearance:none;border:0;border-radius:10px;background:var(--accent);color:var(--accent-ink);
+font-size:16px;font-weight:700;padding:12px 22px;cursor:pointer;font-family:inherit}
+.btn:active{opacity:.85}
+.btn.ghost{background:var(--surface);color:var(--accent);border:1.5px solid var(--accent)}
+.btn.small{padding:8px 16px;font-size:14px}
+.btn:disabled{opacity:.45;cursor:default}
+select,input[type=text]{font-family:inherit;font-size:16px;color:var(--ink);
+background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
+select{width:100%;margin:0 0 12px}
+.launcher-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+/* quiz */
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink2);margin-bottom:8px}
+.qtag{background:var(--accent-soft);color:var(--accent);font-weight:700;border-radius:6px;padding:2px 8px;font-size:12px}
+.bar{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden;margin:0 0 16px}
+.bar>i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width.25s}
+.qstem{font-size:17px;font-weight:600;line-height:1.6;margin:0 0 14px;white-space:pre-wrap}
+.opts{display:grid;gap:9px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;
+background:var(--surface);border:1.5px solid var(--line);border-radius:10px;
+padding:11px 13px;font-size:16px;color:var(--ink);cursor:pointer;font-family:inherit;line-height:1.55}
+.opt .k{font-weight:700;color:var(--accent);flex:none}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.right{border-color:var(--accent);background:var(--green-bg)}
+.opt.wrong{border-color:var(--red);background:var(--red-bg)}
+.fillin{width:100%}
+.fillhint{font-size:13px;color:var(--ink2);margin-top:6px}
+.qnav{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.qnav .sp{flex:1}
+.expl{margin-top:14px;border-radius:10px;padding:12px 14px;font-size:15px;display:none}
+.expl.show{display:block}
+.expl.ok{background:var(--green-bg)}
+.expl.bad{background:var(--red-bg)}
+.expl .ans{font-weight:700}
+.score{text-align:center;padding:8px 0 4px}
+.score .big{font-size:44px;font-weight:800;line-height:1.1}
+.score .of{color:var(--ink2)}
+.review-item{border-top:1px solid var(--line);padding:12px 0}
+.review-item:first-of-type{border-top:0}
+.review-item .rq{font-weight:600;font-size:15px;white-space:pre-wrap}
+.review-item .ra{font-size:14px;margin-top:4px;white-space:pre-wrap}
+.review-item .ra .mine{color:var(--red)}
+.review-item .ra .corr{color:var(--accent);font-weight:700}
+.review-item .re{font-size:14px;color:var(--ink2);margin-top:2px;white-space:pre-wrap}
+/* concepts */
+.concepts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.concepts{grid-template-columns:1fr}}
+.concept{border:1.5px solid var(--line);border-radius:12px;padding:14px;background:var(--surface);cursor:pointer;text-align:left;width:100%;font-family:inherit;color:var(--ink)}
+.concept .term{font-weight:700;font-size:16px}
+.concept .num{color:var(--ink2);font-size:12px;font-weight:400}
+.concept .def{display:none;margin-top:8px;font-size:14.5px;line-height:1.65;color:var(--ink)}
+.concept.open .def{display:block}
+.concept .hint{font-size:12px;color:var(--accent);margin-top:4px}
+.concept.open .hint{display:none}
+/* essays */
+.essay{border:1px solid var(--line);border-radius:12px;margin:0 0 10px;overflow:hidden;background:var(--surface)}
+.essay>button{width:100%;text-align:left;background:none;border:0;padding:14px 16px;cursor:pointer;
+font-family:inherit;font-size:16px;font-weight:700;color:var(--ink);display:flex;gap:8px;align-items:baseline}
+.essay .star{color:var(--amber);flex:none}
+.essay .body{display:none;padding:0 16px 14px;font-size:15px;line-height:1.75}
+.essay.open .body{display:block}
+.essay .body p{margin:0 0 8px}
+textarea.fillin{width:100%;font-family:inherit;font-size:16px;color:var(--ink);
+background:var(--surface);border:1.5px solid var(--line);border-radius:10px;
+padding:10px 12px;line-height:1.6;resize:vertical}
+.refbox{display:none;margin-top:12px;background:var(--amber-bg);border-radius:10px;
+padding:12px 14px;font-size:15px;line-height:1.75;white-space:pre-wrap}
+.refbox.show{display:block}
+.refbox .memo2{margin-top:8px;font-size:14px}
+.pts{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+.pts li{font-size:14.5px;line-height:1.55;padding:7px 10px;border-radius:8px;background:var(--surface);border:1px solid var(--line)}
+.pts li.hit{border-color:var(--accent)}
+.pts li.miss{opacity:.92}
+.pts .st{font-weight:700;margin-right:6px}
+.pts li.hit .st{color:var(--accent)}
+.pts li.miss .st{color:var(--red)}
+.ptscore{font-weight:700;margin-top:10px;font-size:15px}
+.memo{background:var(--amber-bg);border-radius:8px;padding:8px 12px;font-size:14px;margin-top:8px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:6px 0 4px}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:var(--surface2)}
+.tblwrap{overflow-x:auto}
+.note{font-size:13.5px;color:var(--ink2)}
+.hidden{display:none!important}
+footer{color:var(--ink2);font-size:13px;text-align:center;margin-top:28px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>分子生物学 · 阶段测试二</h1>
+<p class="sub">2026 级生物技术 · 按阶段测试二考试大纲整理：考试版出题、答案版判分。题目顺序与选择题选项每次打开都会打乱，先答完、再看答案。</p>
+<div class="chips">
+<span class="chip">范围：<b>阶段测试一概念题 + 作业 1–7</b></span>
+<span class="chip">带 <b>★</b> 为照片红笔重点</span>
+<span class="chip">简答 / 论述 <b>14 题</b></span>
+</div>
+
+<div class="stats">
+<div class="stat"><div class="n">16</div><div class="l">概念题</div></div>
+<div class="stat"><div class="n">44</div><div class="l">选择题</div></div>
+<div class="stat"><div class="n">16</div><div class="l">判断题</div></div>
+<div class="stat"><div class="n">14</div><div class="l">填空题</div></div>
+<div class="stat"><div class="n">14</div><div class="l">简答论述</div></div>
+</div>
+
+<nav class="toc">
+<a href="#quiz">开始刷题</a>
+<a href="#concepts">概念速记</a>
+<a href="#essays">简答论述</a>
+<a href="#tables">对比速记表</a>
+</nav>
+
+<div class="card">
+<h2>考试范围（按作业）</h2>
+<p class="sub">客观题全部来自作业 1–7 的指定题号，概念题来自阶段测试一。</p>
+<div class="scope">
+<div class="scope-item"><div class="t">作业 1 · 基因组与染色质</div><div class="d">核小体、B-DNA、超螺旋、C 值悖论、端粒</div></div>
+<div class="scope-item"><div class="t">作业 2 · DNA 复制与修复</div><div class="d">前导/后随链、冈崎片段、引物、错配/SOS/光修复、转座</div></div>
+<div class="scope-item"><div class="t">作业 3 · 转录</div><div class="d">RNA 聚合酶、σ 亚基、顺式作用元件、增强子</div></div>
+<div class="scope-item"><div class="t">作业 4 · RNA 与密码子</div><div class="d">mRNA/tRNA/rRNA、AUG、摆动配对、多顺反子</div></div>
+<div class="scope-item"><div class="t">作业 5 · 翻译</div><div class="d">进位→转肽→移位、SD 序列、EF-G、释放因子、信号肽</div></div>
+<div class="scope-item"><div class="t">作业 6 · 分子生物学技术</div><div class="d">PCR、三大 blot、cDNA 文库、限制酶、连接酶</div></div>
+<div class="scope-item"><div class="t">作业 7 · 基因表达调控</div><div class="d">操纵子组成、色氨酸操纵子、CAP、甲基化、乙酰化</div></div>
+<div class="scope-item"><div class="t">阶段测试一 · 概念</div><div class="d">半保留复制、启动子、操纵子、衰减子、开放阅读框等 16 个</div></div>
+</div>
+</div>
+
+<!-- ============ QUIZ ============ -->
+<div class="card" id="quiz">
+<h2>刷题</h2>
+<div id="launcher">
+<p class="sub">选范围后开始。选择、判断、填空、概念混排打乱；答题过程中不显示答案，交卷后统一判分并给出解析。填空按要点判分，意思对即可。概念题是打字默写定义：只给出概念名，自己打字写定义，每题拆成几个打分点，命中打分点才得分（达到 60% 打分点算对），写完可展开对照看漏了哪个点；简答题先凭记忆写要点，再展开参考要点对照、自评是否答全。</p>
+<label class="note" for="modeSel">练习范围</label>
+<select id="modeSel">
+<option value="everything">全部题目（选择 44 + 判断 16 + 填空 14 + 概念 16 + 简答 14 = 104 题）</option>
+<option value="all">全部客观题（选择 44 + 判断 16 + 填空 14 = 74 题）</option>
+<option value="choice">只练选择题（44 题）</option>
+<option value="judge">只练判断题（16 题）</option>
+<option value="fill">只练填空题（14 题）</option>
+<option value="concept">只练概念题（16 题 · 打字默写 · 按打分点判分）</option>
+<option value="essay">只练简答 / 论述（14 题 · 写要点后对照自评）</option>
+<option value="hw1">作业 1 专项</option>
+<option value="hw2">作业 2 专项</option>
+<option value="hw3">作业 3 专项</option>
+<option value="hw4">作业 4 专项</option>
+<option value="hw5">作业 5 专项</option>
+<option value="hw6">作业 6 专项</option>
+<option value="hw7">作业 7 专项</option>
+</select>
+<div class="launcher-row">
+<button class="btn" id="startBtn">开始答题</button>
+<span class="note">每次开始都会重新打乱题序与选项。</span>
+</div>
+</div>
+
+<div id="quizBox" class="hidden">
+<div class="qmeta"><span id="qCount"></span><span id="qHw"></span></div>
+<div class="bar"><i id="qBar" style="width:0%"></i></div>
+<p class="qstem" id="qStem"></p>
+<div id="qBody"></div>
+<div class="qnav">
+<button class="btn ghost small" id="prevBtn">上一题</button>
+<button class="btn ghost small" id="nextBtn">下一题</button>
+<span class="sp"></span>
+<button class="btn small" id="submitBtn">交卷判分</button>
+</div>
+<p class="note" id="answeredNote" style="margin-top:10px"></p>
+</div>
+
+<div id="resultBox" class="hidden">
+<div class="score">
+<div class="big" id="scoreBig"></div>
+<div class="of" id="scoreOf"></div>
+</div>
+<div class="launcher-row" style="justify-content:center;margin:12px 0 4px">
+<button class="btn" id="retryWrongBtn">只重练错题</button>
+<button class="btn ghost" id="againBtn">重新开始</button>
+</div>
+<div id="reviewList"></div>
+</div>
+</div>
+
+<!-- ============ CONCEPTS ============ -->
+<div class="card" id="concepts">
+<h2>概念速记（阶段测试一 · 16 题）</h2>
+<p class="sub">卡片默认只显示概念名。先自己默背一遍，再点开卡片对答案。括号内是阶段测试一原题号。想打字默写检验，去上方刷题选「只练概念题」或「全部题目」：只给概念名、自己打字写定义，按打分点判分。</p>
+<div class="concepts" id="conceptGrid"></div>
+</div>
+
+<!-- ============ ESSAYS ============ -->
+<div class="card" id="essays">
+<h2>简答 / 论述（14 题）</h2>
+<p class="sub">题目默认只显示题干，点开才看要点；★ 为照片红笔重点，优先背。想动笔自测，去上方刷题选「只练简答 / 论述」或「全部题目」：先写要点，再对照参考要点自评。</p>
+<div id="essayList"></div>
+</div>
+
+<!-- ============ TABLES ============ -->
+<div class="card" id="tables">
+<h2>对比速记表</h2>
+
+<h3>前导链 vs 后随链</h3>
+<div class="tblwrap"><table>
+<tr><th>比较点</th><th>前导链</th><th>后随链</th></tr>
+<tr><td>与复制叉方向</td><td>相同</td><td>相反</td></tr>
+<tr><td>合成方式</td><td>连续合成</td><td>不连续，产生冈崎片段</td></tr>
+<tr><td>引物数目</td><td>1 个</td><td>多个，每片段 1 个</td></tr>
+<tr><td>子链方向</td><td>5′→3′</td><td>5′→3′（每段冈崎片段）</td></tr>
+<tr><td>模板链方向</td><td>3′→5′</td><td>5′→3′</td></tr>
+<tr><td>DNA 连接酶</td><td>不需要（或极少）</td><td>需要，连接冈崎片段</td></tr>
+<tr><td>合成效率</td><td>快</td><td>相对慢，需不断起始</td></tr>
+</table></div>
+
+<h3 style="margin-top:16px">转录 vs 复制</h3>
+<div class="tblwrap"><table>
+<tr><th></th><th>复制</th><th>转录</th></tr>
+<tr><td>相同点</td><td colspan="2">都以 DNA 为模板；碱基互补配对；5′→3′ 方向合成；都需要聚合酶</td></tr>
+<tr><td>模板</td><td>两条链均为模板</td><td>仅一条模板链</td></tr>
+<tr><td>底物</td><td>dNTP</td><td>NTP</td></tr>
+<tr><td>产物</td><td>双链 DNA</td><td>RNA 单链</td></tr>
+<tr><td>引物</td><td>需要 RNA 引物</td><td>不需要引物</td></tr>
+<tr><td>保真度</td><td>高（校对 + 错配修复）</td><td>较低（无校对）</td></tr>
+</table></div>
+
+<h3 style="margin-top:16px">PCR 三步与体系</h3>
+<div class="tblwrap"><table>
+<tr><th>步骤</th><th>温度</th><th>发生什么</th></tr>
+<tr><td>变性</td><td>94 ℃</td><td>双链解链</td></tr>
+<tr><td>退火</td><td>50–60 ℃</td><td>引物结合模板</td></tr>
+<tr><td>延伸</td><td>72 ℃</td><td>Taq 酶合成 DNA</td></tr>
+</table></div>
+<p class="note">反应体系：模板 DNA、上下游引物、dNTP、Taq 酶、缓冲液、Mg²⁺。循环多次，靶片段指数扩增。不需要 RNA 引物。</p>
+
+<h3 style="margin-top:16px">三大 blot 与三类 RNA</h3>
+<div class="tblwrap"><table>
+<tr><th>方法</th><th>检测对象</th></tr>
+<tr><td>Southern blot</td><td>DNA</td></tr>
+<tr><td>Northern blot</td><td>RNA</td></tr>
+<tr><td>Western blot</td><td>蛋白质</td></tr>
+</table></div>
+<div class="tblwrap"><table>
+<tr><th>RNA</th><th>功能</th></tr>
+<tr><td>mRNA</td><td>携带遗传信息，翻译模板，密码子决定氨基酸顺序</td></tr>
+<tr><td>tRNA</td><td>转运氨基酸，反密码子识别密码子，三叶草结构，3′ 端 CCA 结合氨基酸</td></tr>
+<tr><td>rRNA</td><td>构成核糖体，具有肽基转移酶（核酶）活性，催化肽键形成</td></tr>
+</table></div>
+</div>
+
+<footer>内容依据阶段测试二考试大纲（答案版）整理 · 客观题来自作业 1–7 指定题号，概念题来自阶段测试一</footer>
+</div>
+
+<script>
+/* ================= DATA (from 阶段测试二考试大纲·答案版) ================= */
+var CHOICE = [
+{hw:1,q:"染色质的基本结构单位是（ ）",o:["组蛋白","核小体","螺线管","复制子"],a:"核小体",e:"染色质的基本结构单位是核小体。"},
+{hw:1,q:"下列哪一组不属于核小体八聚体成分（ ）",o:["H2A","H2B","H1","H3"],a:"H1",e:"八聚体由 H2A、H2B、H3、H4 各两分子组成；H1 是连接组蛋白，不在八聚体内。"},
+{hw:1,q:"真核生物染色体末端结构称为（ ）",o:["着丝粒","端粒","复制起点","核小体"],a:"端粒",e:"染色体末端结构是端粒。"},
+{hw:1,q:"C 值悖论本质说明（ ）",o:["DNA 总量和生物复杂度没有严格对应关系","基因组越大基因越多","重复序列不算基因组 DNA","原核 C 值一定小于真核"],a:"DNA 总量和生物复杂度没有严格对应关系",e:"C 值悖论：DNA 总量与生物复杂度没有严格对应关系。"},
+{hw:2,q:"冈崎片段产生的原因是（ ）",o:["复制速度太快","复制方向与解链方向相反","多个复制起点","DNA 损伤修复"],a:"复制方向与解链方向相反",e:"后随链合成方向与复制叉前进（解链）方向相反，只能分段合成冈崎片段。"},
+{hw:2,q:"复制时不需要以下哪种物质（ ）",o:["dNTP","RNA 引物","NTP","单链 DNA 结合蛋白"],a:"NTP",e:"DNA 复制原料是 dNTP，引物是 RNA 引物；NTP 是转录原料。"},
+{hw:2,q:"端粒酶的作用是（ ）",o:["解开双链","补充染色体末端","合成引物","连接缺口"],a:"补充染色体末端",e:"端粒酶补充线性染色体末端，解决末端复制问题。"},
+{hw:2,q:"DNA 半不连续复制是指（ ）",o:["两条链均连续合成","前导链连续、后随链不连续","前导链不连续、后随链连续","两条链都不连续合成"],a:"前导链连续、后随链不连续",e:"半不连续复制：前导链连续，后随链不连续（冈崎片段）。"},
+{hw:2,q:"易错修复是指（ ）",o:["错配修复","切除修复","SOS 修复","光修复"],a:"SOS 修复",e:"SOS 修复是易错修复，会引入突变。"},
+{hw:2,q:"光修复主要用来修复哪一种 DNA 损伤（ ）",o:["胸腺嘧啶二聚体","碱基缺失","双链断裂","错配碱基"],a:"胸腺嘧啶二聚体",e:"光修复（光复活）直接修复紫外线造成的胸腺嘧啶二聚体。"},
+{hw:2,q:"重组修复的特点是（ ）",o:["直接切除损伤碱基","复制后通过重组交换绕过损伤位点","属于易错修复","只能修复嘧啶二聚体"],a:"复制后通过重组交换绕过损伤位点",e:"重组修复在复制后通过重组交换绕过损伤位点，损伤本身暂不去除。"},
+{hw:2,q:"转座子转座会带来的基因组变化不包括（ ）",o:["插入失活基因","基因组重排","产生新基因","修复 DNA 损伤"],a:"修复 DNA 损伤",e:"转座可造成插入失活、基因组重排、产生新基因，但不修复 DNA 损伤。"},
+{hw:2,q:"转座发生后靶位点会产生（ ）",o:["反向重复","靶位点正向重复序列","无任何变化","胸腺嘧啶二聚体"],a:"靶位点正向重复序列",e:"转座后靶位点两侧产生正向重复序列。"},
+{hw:3,q:"下列不属于真核生物转录调控顺式作用元件的是（ ）",o:["启动子","增强子","沉默子","RNA 聚合酶"],a:"RNA 聚合酶",e:"启动子、增强子、沉默子是 DNA 上的顺式作用元件；RNA 聚合酶是酶，不是元件。"},
+{hw:3,q:"增强子的作用特点是（ ）",o:["只能位于基因上游","可远距离、双向调控转录","直接结合 RNA 聚合酶","抑制转录起始"],a:"可远距离、双向调控转录",e:"增强子可远距离、双向（位置方向相对自由）增强转录。"},
+{hw:3,q:"原核生物转录和翻译的特点是（ ）",o:["先转录后翻译","转录翻译同时进行","仅细胞核内进行","需复杂转录后加工"],a:"转录翻译同时进行",e:"原核无核膜，转录与翻译偶联、同时进行。"},
+{hw:4,q:"关于 tRNA 描述错误的是（ ）",o:["含有稀有碱基","二级结构为三叶草","3′ 端 CCA 结合氨基酸","作为翻译模板"],a:"作为翻译模板",e:"翻译模板是 mRNA；tRNA 负责转运氨基酸。"},
+{hw:4,q:"真核成熟 mRNA 不具备以下哪个特点（ ）",o:["5′ 帽子结构","poly(A) 尾","内含子保留在成熟 mRNA","单顺反子为主"],a:"内含子保留在成熟 mRNA",e:"成熟 mRNA 已剪接去除内含子，并有 5′ 帽子和 poly(A) 尾。"},
+{hw:4,q:"密码子位于（ ）",o:["mRNA","tRNA","rRNA","核糖体蛋白"],a:"mRNA",e:"密码子是 mRNA 上每 3 个相邻核苷酸。"},
+{hw:4,q:"反密码子存在于（ ）",o:["mRNA","tRNA","rRNA","DNA"],a:"tRNA",e:"反密码子在 tRNA 上，与密码子反向平行配对。"},
+{hw:4,q:"原核生物 mRNA 的特点是（ ）",o:["有 5′ 帽子","多顺反子，转录后一般无需复杂加工","带 polyA 尾","含有大量稀有碱基"],a:"多顺反子，转录后一般无需复杂加工",e:"原核 mRNA 多为多顺反子，一条 mRNA 可翻译多条多肽。"},
+{hw:4,q:"摆动配对发生在（ ）",o:["密码子第 1 位和反密码子第 3 位","密码子第 3 位和反密码子第 1 位","密码子第 2 位和反密码子第 2 位","任意位置"],a:"密码子第 3 位和反密码子第 1 位",e:"摆动发生在密码子第 3 位与反密码子第 1 位之间。"},
+{hw:4,q:"多肽链合成方向是（ ）",o:["C→N","N→C","双向同时合成","随机方向"],a:"N→C",e:"多肽链从 N 端向 C 端合成。"},
+{hw:5,q:"原核生物翻译起始时，帮助 30S 小亚基定位 mRNA 的是（ ）",o:["终止密码子","SD 序列","polyA 尾","启动子"],a:"SD 序列",e:"SD 序列与 16S rRNA 配对，帮助 30S 小亚基定位 mRNA 起始位点。"},
+{hw:5,q:"核糖体催化肽键生成的活性本质是（ ）",o:["蛋白质酶","rRNA（核酶）","tRNA","mRNA"],a:"rRNA（核酶）",e:"肽键形成由大亚基 rRNA 的核酶活性催化。"},
+{hw:5,q:"肽链延伸顺序正确的是（ ）",o:["移位→进位→转肽","进位→转肽→移位","转肽→进位→移位","进位→移位→转肽"],a:"进位→转肽→移位",e:"延伸循环：进位、转肽、移位，依次循环。"},
+{hw:5,q:"原核延伸因子 EF-G 的主要功能是（ ）",o:["携带氨酰 tRNA 进入 A 位","催化肽键合成","介导核糖体移位","识别终止密码"],a:"介导核糖体移位",e:"EF-G 介导核糖体沿 mRNA 移位；携带氨酰-tRNA 进位的是 EF-Tu。"},
+{hw:5,q:"翻译终止阶段，释放因子的作用是（ ）",o:["结合起始密码子","水解肽酰-tRNA 酯键，释放多肽","携带氨基酸","促进核糖体大小亚基结合"],a:"水解肽酰-tRNA 酯键，释放多肽",e:"释放因子识别终止密码子，水解肽酰-tRNA 酯键，释放多肽链。"},
+{hw:5,q:"关于原核转录翻译，说法正确的是（ ）",o:["先转录完全结束，再开始翻译","转录和翻译可以同时进行","都在细胞核内完成","转录模板是蛋白质"],a:"转录和翻译可以同时进行",e:"原核转录翻译偶联，可同时进行。"},
+{hw:5,q:"真核翻译起始，起始 tRNA 携带的氨基酸是（ ）",o:["fMet","Met","Ala","Gly"],a:"Met",e:"真核起始氨基酸是 Met；原核是甲酰甲硫氨酸 fMet。"},
+{hw:5,q:"多聚核糖体的生物学意义（ ）",o:["减慢翻译速度","一条 mRNA 同时合成多条多肽，提高效率","只能合成 1 条肽链","只存在于真核生物"],a:"一条 mRNA 同时合成多条多肽，提高效率",e:"多聚核糖体让一条 mRNA 同时翻译多条多肽，提高效率。"},
+{hw:5,q:"信号肽的主要功能是（ ）",o:["终止蛋白质翻译","引导新生肽链靶向进入内质网","催化肽键形成","促进蛋白质折叠"],a:"引导新生肽链靶向进入内质网",e:"信号肽引导新生肽链靶向转运进入内质网。"},
+{hw:5,q:"关于核定位信号（NLS）的说法正确的是（ ）",o:["位于肽链 N 端","转运后被切除","可重复使用","仅含疏水氨基酸"],a:"可重复使用",e:"NLS 不被切除、可重复使用，引导蛋白质入核。"},
+{hw:6,q:"PCR 反应不需要下面哪一种成分（ ）",o:["dNTP","RNA 引物","模板 DNA","Taq 酶"],a:"RNA 引物",e:"PCR 用 DNA 引物，不需要 RNA 引物。"},
+{hw:6,q:"下面哪种文库不含内含子（ ）",o:["基因组 DNA 文库","cDNA 文库","质粒文库","BAC 文库"],a:"cDNA 文库",e:"cDNA 由成熟 mRNA 逆转录而来，不含内含子。"},
+{hw:6,q:"琼脂糖电泳 DNA 迁移速率主要取决于（ ）",o:["DNA 分子量大小","DNA 碱基组成","蛋白结合量","温度"],a:"DNA 分子量大小",e:"琼脂糖凝胶电泳中迁移速率主要取决于 DNA 分子量大小。"},
+{hw:6,q:"限制性内切酶主要功能（ ）",o:["降解 RNA","识别切割回文 DNA 序列","逆转录","连接 DNA 片段"],a:"识别切割回文 DNA 序列",e:"限制性内切酶识别并切割回文 DNA 序列。"},
+{hw:6,q:"质粒作为克隆载体，不需要具备（ ）",o:["复制起点","多克隆位点","端粒序列","抗性筛选标记"],a:"端粒序列",e:"质粒载体需复制起点、多克隆位点、筛选标记；端粒是线性染色体末端结构，质粒不需要。"},
+{hw:6,q:"DNA 连接酶的作用是（ ）",o:["降解双链 DNA","催化 DNA 片段之间磷酸二酯键形成","合成 RNA 引物","解开 DNA 双链"],a:"催化 DNA 片段之间磷酸二酯键形成",e:"DNA 连接酶催化片段间形成磷酸二酯键，封补缺口。"},
+{hw:7,q:"色氨酸充足时，色氨酸操纵子（ ）",o:["转录开启，无衰减","阻遏蛋白结合，同时发生衰减，转录减弱","仅衰减起作用，阻遏蛋白不工作","CAP 蛋白激活转录"],a:"阻遏蛋白结合，同时发生衰减，转录减弱",e:"色氨酸充足时阻遏与衰减双重作用，转录减弱。"},
+{hw:7,q:"下列属于顺式作用元件的是（ ）",o:["转录因子","RNA 聚合酶","增强子","CAP 蛋白"],a:"增强子",e:"增强子是 DNA 上的顺式作用元件；转录因子、CAP 是反式作用因子。"},
+{hw:7,q:"关于衰减子说法正确的是（ ）",o:["真核特有","依靠转录翻译偶联","属于翻译水平调控","存在于乳糖操纵子"],a:"依靠转录翻译偶联",e:"衰减子利用原核转录与翻译偶联机制调节转录，见于色氨酸操纵子。"},
+{hw:7,q:"组蛋白高度乙酰化，染色质状态（ ）",o:["紧密，抑制转录","疏松，促进转录","无变化","DNA 发生突变"],a:"疏松，促进转录",e:"组蛋白乙酰化使染色质疏松，促进转录。"},
+{hw:7,q:"关于 CAP 蛋白描述正确的是（ ）",o:["结合操纵序列，抑制转录","需要 cAMP 结合才有活性","色氨酸操纵子的阻遏蛋白","属于顺式元件"],a:"需要 cAMP 结合才有活性",e:"CAP 需与 cAMP 结合形成复合物才有活性，起正调控作用。"}
+];
+
+var JUDGE = [
+{hw:1,q:"基因密度越大，进化程度越高。",a:false,e:"×。基因密度随进化程度提高而降低：原核基因密度高，真核基因组庞大、非编码序列多，基因密度低。"},
+{hw:2,q:"原核生物一个基因组通常只有一个复制起点。",a:true,e:"√。原核一条环状染色体，通常只有一个复制起点。"},
+{hw:2,q:"dNTP 是 DNA 合成原料。",a:true,e:"√。DNA 合成原料是 dNTP。"},
+{hw:2,q:"错配修复依靠甲基化区分母链与新合成子链。",a:true,e:"√。错配修复靠母链甲基化程度区分新旧链。"},
+{hw:2,q:"SOS 修复属于高保真修复，不会引入突变。",a:false,e:"×。SOS 修复属于易错修复，会引入突变。"},
+{hw:2,q:"插入序列（IS）带有抗性基因。",a:false,e:"×。IS 只含转座酶基因，不带抗性基因；带抗性基因的是复合转座子。"},
+{hw:3,q:"转录的忠实性高于 DNA 复制，几乎无差错。",a:false,e:"×。转录无校对机制，忠实性低于 DNA 复制。"},
+{hw:3,q:"真核生物转录在细胞核进行，翻译在细胞质进行，时空分离。",a:true,e:"√。真核转录在核内、翻译在细胞质，时空分离。"},
+{hw:4,q:"翻译的模板是 mRNA，原料是氨基酸。",a:true,e:"√。翻译以 mRNA 为模板、氨基酸为原料合成多肽。"},
+{hw:4,q:"tRNA 的反密码子和密码子是同向平行配对。",a:false,e:"×。反密码子与密码子反向平行配对。"},
+{hw:4,q:"原核 mRNA 是单顺反子，一条 mRNA 只能翻译一条多肽。",a:false,e:"×。原核 mRNA 多为多顺反子，一条可翻译多条多肽。"},
+{hw:6,q:"DNA 电泳向正极移动，因为 DNA 磷酸基团带负电。",a:true,e:"√。DNA 磷酸基团带负电，电泳时向正极移动。"},
+{hw:6,q:"分子杂交的基础是核酸碱基互补配对。",a:true,e:"√。分子杂交基于核酸碱基互补配对。"},
+{hw:6,q:"真核生物存在操纵子结构。",a:false,e:"×。操纵子是原核生物的结构，真核一般不存在。"},
+{hw:7,q:"DNA 甲基化改变 DNA 序列，从而抑制基因表达。",a:false,e:"×。甲基化不改变 DNA 序列，是表观遗传修饰。"},
+{hw:7,q:"色氨酸操纵子中，前导肽翻译是衰减调控的关键。",a:true,e:"√。前导肽翻译速度决定衰减子二级结构，是衰减调控关键。"}
+];
+
+var FILL = [
+{hw:1,q:"真核生物染色体由 DNA 和 ______ 组成。",keys:["蛋白质"],e:"染色体由 DNA 和蛋白质组成。"},
+{hw:1,q:"染色质的基本结构单位是 ______。",keys:["核小体"],e:"基本结构单位是核小体。"},
+{hw:1,q:"DNA 二级结构最常见的构型是 B-DNA，为 ______ 手螺旋；DNA 超螺旋分为 ______ 超螺旋和 ______ 超螺旋，天然状态下大多数 DNA 为 ______ 超螺旋。（4 个空，依次填写）",keys:["右","正","负","负"],e:"B-DNA 为右手螺旋；超螺旋分正、负两种，天然 DNA 多为负超螺旋。"},
+{hw:2,q:"DNA 复制时，沿复制叉前进方向连续合成的链称为 ______ 链；不连续合成的链称为 ______ 链；后者合成产生的短 DNA 片段叫作 ______ 片段。（依次填写）",keys:["前导","后随","冈崎"],e:"前导链连续、后随链不连续，后随链片段称冈崎片段。（后随链也常写作滞后链）"},
+{hw:2,q:"DNA 复制时，子链合成方向永远是从 ______ 端向 ______ 端延伸。（依次填写）",keys:["5'","3'"],e:"子链只能 5′→3′ 延伸。可输入 5' 和 3'。"},
+{hw:2,q:"引物的化学本质是 ______，催化合成引物的酶称为 ______。（依次填写）",keys:["RNA","引物酶"],e:"引物是 RNA，由引物酶（引发酶）合成。"},
+{hw:3,q:"转录是以 DNA 的一条链为模板，以 ______ 为原料，在 ______ 催化下合成 RNA 的过程；真核生物中主要负责转录 mRNA 前体（hnRNA）的是 RNA 聚合酶 ______。（依次填写）",keys:["NTP","RNA 聚合酶","II"],e:"转录原料 NTP、酶为 RNA 聚合酶；转录 hnRNA 的是 RNA 聚合酶 II。"},
+{hw:3,q:"原核生物 RNA 聚合酶的核心酶由 α2ββ′ω 五个亚基组成，σ 亚基负责 ______。（填功能）",keys:["识别启动子"],e:"σ 亚基负责识别启动子、启动转录。"},
+{hw:4,q:"与蛋白质合成相关的 3 类 RNA：作为翻译模板的是 ______；转运氨基酸、解读密码子的是 ______；构成核糖体、具有肽基转移酶活性的是 ______。（依次填写）",keys:["mRNA","tRNA","rRNA"],e:"mRNA 模板、tRNA 转运、rRNA 构成核糖体并催化肽键。"},
+{hw:4,q:"密码子 AUG 有双重功能：编码 ______，同时作为 ______ 密码子。（依次填写）",keys:["甲硫氨酸","起始"],e:"AUG 编码甲硫氨酸，又是起始密码子。"},
+{hw:5,q:"肽链延伸循环三步依次为：______、______ 和 ______。（依次填写）",keys:["进位","转肽","移位"],e:"延伸三步：进位 → 转肽 → 移位；肽键形成由大亚基 rRNA 催化。"},
+{hw:6,q:"PCR 的三步循环反应依次为 ______、______、______。（依次填写）",keys:["变性","退火","延伸"],e:"PCR 三步：变性、退火、延伸。"},
+{hw:6,q:"Southern blot 检测 ______；Northern blot 检测 ______；Western blot 检测 ______。（依次填写）",keys:["DNA","RNA","蛋白质"],e:"Southern→DNA，Northern→RNA，Western→蛋白质。"},
+{hw:7,q:"操纵子的组成包括 ______、______、______ 以及 ______。（无先后顺序，写全 4 个）",keys:["启动子","操纵基因","结构基因","调节基因"],e:"操纵子组成：启动子、操纵基因（操纵序列）、结构基因、调节基因。"}
+];
+
+var CONCEPTS = [
+{n:5,t:"DNA 的半保留复制",d:"新合成的子代 DNA 分子中，一条链是新合成的，另一条链来自亲代。",pts:[{t:"对象是新合成的子代 DNA 分子",k:["子代"]},{t:"其中一条链是新合成的",k:["新合成"]},{t:"另一条链来自亲代（保留亲代链）",k:["亲代"]}]},
+{n:6,t:"DNA 的半不连续复制",d:"前导链的合成是连续的，滞后链的合成是不连续的（产生冈崎片段），这样的复制过程称为半不连续复制。",pts:[{t:"前导链连续合成",k:["前导"]},{t:"滞后链（后随链）不连续合成",k:["滞后","后随"]},{t:"不连续合成产生冈崎片段",k:["冈崎"]}]},
+{n:10,t:"转录",d:"拷贝出一条与 DNA 链序列相同（除 T→U 外）的 RNA 单链的过程，是基因表达的核心步骤。",pts:[{t:"以 DNA 链为模板拷贝",k:["DNA"]},{t:"产物是一条 RNA 单链",k:["RNA"]},{t:"RNA 序列与 DNA 链相同，只是 T 换成 U",k:["U","尿嘧啶"]},{t:"是基因表达的核心步骤",k:["基因表达"]}]},
+{n:11,t:"内含子与外显子",d:"内含子：一个基因中非编码 DNA 片段，分开外显子，阻断基因线性表达。外显子：真核生物基因的一部分，剪接后仍被保存下来，可在蛋白质生物合成中被表达为蛋白质。",pts:[{t:"内含子是基因中的非编码 DNA 片段",k:["非编码"]},{t:"内含子分开外显子、阻断基因线性表达（剪接时被切除）",k:["分开","阻断","切除","剪接"]},{t:"外显子是真核基因的一部分，剪接后被保留下来",k:["保留"]},{t:"外显子可被表达为蛋白质",k:["蛋白质"]}]},
+{n:12,t:"重叠基因",d:"同一段 DNA 携带两种或两种以上不同蛋白质的编码信息。重叠序列可以是调控基因，也可以是结构基因，常见于病毒和噬菌体基因组。",pts:[{t:"同一段 DNA 序列",k:["同一段"]},{t:"携带两种或两种以上不同蛋白质的编码信息",k:["两种","二种","以上","两个","不同蛋白质"]},{t:"重叠序列可以是调控基因，也可以是结构基因",k:["调控","结构基因"]},{t:"常见于病毒和噬菌体基因组",k:["病毒","噬菌体"]}]},
+{n:13,t:"启动子",d:"一段位于结构基因 5′ 端上游区的 DNA 序列，能活化 RNA 聚合酶，使之与模板 DNA 准确结合并具有转录起始的特异性，是基因转录起始所必需的，是基因表达调控的上游顺式作用元件之一。",pts:[{t:"是位于结构基因 5′ 端上游区的一段 DNA 序列",k:["上游"]},{t:"能活化 RNA 聚合酶，使其与模板 DNA 准确结合",k:["RNA聚合酶"]},{t:"具有转录起始的特异性，是转录起始所必需的",k:["转录起始"]},{t:"是基因表达调控的上游顺式作用元件之一",k:["顺式"]}]},
+{n:14,t:"密码子",d:"mRNA 上每 3 个核苷酸翻译成多肽链上的一个氨基酸，这 3 个核苷酸称为一个密码子。",pts:[{t:"位于 mRNA 上",k:["MRNA"]},{t:"由每 3 个核苷酸组成",k:["3个","三"]},{t:"对应多肽链上的一个氨基酸",k:["氨基酸"]}]},
+{n:15,t:"翻译",d:"将 mRNA 链上的核苷酸从一个特定的起始位点开始，按每 3 个核苷酸代表一个氨基酸的原则，依次合成一条多肽链的过程。",pts:[{t:"以 mRNA 上的核苷酸顺序为依据",k:["MRNA"]},{t:"从一个特定的起始位点开始",k:["起始"]},{t:"按每 3 个核苷酸代表一个氨基酸的原则",k:["氨基酸"]},{t:"依次合成一条多肽链",k:["多肽"]}]},
+{n:16,t:"氨酰-tRNA 合成酶",d:"一类催化氨基酸与对应 tRNA 相结合的特异性酶。",pts:[{t:"是一类具有特异性的酶",k:["酶","特异"]},{t:"催化氨基酸",k:["氨基酸"]},{t:"使氨基酸与对应的 tRNA 相结合",k:["TRNA"]}]},
+{n:19,t:"转座子",d:"存在于染色体 DNA 上可自主复制和位移的基本单位。",pts:[{t:"存在于染色体 DNA 上",k:["染色体"]},{t:"可以自主复制",k:["复制"]},{t:"可以位移（移动位置）的基本单位",k:["位移","移动","转座"]}]},
+{n:20,t:"增强子",d:"能强化转录起始的序列。它们不是启动子的一部分，但能增强或促进转录的起始。",pts:[{t:"是一种能强化转录起始的序列",k:["转录"]},{t:"不是启动子的一部分",k:["不是启动子","并非启动子","不属于启动子","非启动子"]},{t:"能增强或促进转录的起始",k:["增强","促进"]}]},
+{n:21,t:"操纵子",d:"原核生物中包括结构基因及其上游的启动基因、操纵基因以及其他转录翻译调控元件组成的 DNA 片段，是转录的功能单位。",pts:[{t:"是原核生物中的结构",k:["原核"]},{t:"包括结构基因",k:["结构基因"]},{t:"包括其上游的启动基因（启动子）和操纵基因",k:["操纵基因","操纵序列"]},{t:"还包括其他调控元件，是转录的功能单位",k:["转录"]}]},
+{n:24,t:"反式作用因子",d:"能够结合在顺式作用元件上调控基因表达的蛋白质或 RNA。",pts:[{t:"能够结合在顺式作用元件上",k:["顺式"]},{t:"起调控基因表达的作用",k:["基因表达","调控"]},{t:"本质是蛋白质或 RNA",k:["蛋白质"]}]},
+{n:25,t:"顺式作用元件",d:"启动子和基因的调节序列，主要包括启动子、增强子、沉默子和绝缘子等。",pts:[{t:"是启动子和基因的调节序列（DNA 上的序列）",k:["调节序列","调控序列","调节"]},{t:"包括启动子",k:["启动子"]},{t:"包括增强子",k:["增强子"]},{t:"包括沉默子和绝缘子等",k:["沉默子","绝缘子"]}]},
+{n:26,t:"衰减子",d:"原核生物操纵子中能显著减弱甚至终止转录作用的一段核苷酸序列，该区域能形成不同的二级结构，利用原核生物转录与翻译的偶联机制对转录进行调节。",pts:[{t:"位于原核生物操纵子中，是一段核苷酸序列",k:["操纵子"]},{t:"能显著减弱甚至终止转录",k:["终止转录","减弱"]},{t:"该区域能形成不同的二级结构",k:["二级结构"]},{t:"利用转录与翻译的偶联机制进行调节",k:["偶联"]}]},
+{n:29,t:"开放阅读框",d:"一组连续的、含有三联密码子的、能够翻译成为多肽链的 DNA 序列，由起始密码子开始，到终止密码子结束。",pts:[{t:"是一组连续的 DNA 序列",k:["连续"]},{t:"含有三联密码子，能够翻译成多肽链",k:["多肽","三联"]},{t:"由起始密码子开始",k:["起始密码"]},{t:"到终止密码子结束",k:["终止密码"]}]}
+];
+
+var ESSAYS = [
+{star:true,t:"原核生物基因组的特点？",b:"<p>（1）结构简练：基因组 DNA 绝大部分用来编码蛋白质，非编码序列极少；非编码区主要是调控序列。（2）一般只有一条环状双链 DNA 染色体，只有一个复制起点，集中在类核区域，无核膜包裹。（3）存在操纵子结构：功能相关的多个结构基因串联在一起，共用一套调控元件，转录产生多顺反子 mRNA。（4）基因多为单拷贝，rRNA、tRNA 基因除外，为多拷贝；无内含子，基因连续，转录产物不需要剪接加工。（5）存在重叠基因：同一段 DNA 序列可以编码两种不同蛋白质（多见于噬菌体/病毒，细菌较少）。（6）基因组存在可移动 DNA 序列（转座子）。（7）除染色体 DNA 外，还可含有质粒等小型环状 DNA。</p>",m:"速记：环状双链 DNA，单复制起点；结构简练，非编码区少；操纵子、多顺反子；无内含子；结构基因大多单拷贝；存在重叠基因、转座元件；可有质粒。"},
+{star:true,t:"真核生物基因组的特点？",b:"<p>（1）基因组庞大。（2）有染色体结构，多条线性染色体，DNA 与组蛋白形成核小体、染色质。（3）基因组的大部分为非编码序列。（4）转录产物为单顺反子。（5）基因是断裂基因，有内含子结构。（6）存在大量的顺式作用元件。（7）存在大量的 DNA 多态性。（8）具有端粒结构。</p>",m:"速记：基因组大、多条线性染色体；非编码多、断裂基因有内含子；单顺反子；大量顺式元件和重复序列；有端粒。"},
+{star:true,t:"DNA 双螺旋结构的基本特点？",b:"<p>（1）两条反向平行的多脱氧核苷酸链围绕同一中心轴形成右手双螺旋，一条链 5′→3′，另一条 3′→5′。（2）脱氧核糖和磷酸基团在螺旋外侧构成骨架；碱基位于内侧。（3）碱基氢键配对：A 与 T 配对（2 个氢键），G 与 C 配对（3 个氢键），碱基互补配对。（4）螺旋参数：螺距 3.4 nm，每圈 10 个碱基对，相邻碱基对垂直距离 0.34 nm，螺旋直径 2 nm。（5）碱基平面垂直于螺旋轴；双螺旋表面形成大沟和小沟，是蛋白质识别结合 DNA 的重要位点。</p>",m:"速记：两条反向平行右手螺旋；磷酸核糖在外，碱基在内；A-T、G-C 氢键配对；每圈 10 bp，螺距 3.4 nm；存在大沟、小沟。"},
+{star:true,t:"与蛋白质合成相关的 3 类主要 RNA 及功能？",b:"<p>（1）mRNA（信使 RNA）：以 DNA 为模板转录生成，携带遗传信息，作为翻译模板，连续三联体密码子决定多肽链氨基酸顺序。（2）tRNA（转运 RNA）：小分子 RNA，三叶草二级结构；转运氨基酸，一端结合氨基酸，另一端反密码子识别 mRNA 密码子。（3）rRNA（核糖体 RNA）：与蛋白质组装构成核糖体大小亚基，是核糖体骨架组分；部分 rRNA 具有核酶活性，催化肽键形成（肽基转移酶活性）。</p>",m:"速记：mRNA 翻译模板，携带遗传密码；tRNA 转运氨基酸，反密码子识别密码子；rRNA 构成核糖体，催化肽键生成。"},
+{star:false,t:"简述原核与真核 DNA 复制的主要差异？",b:"<p>（1）复制起点：原核单个起点；真核多复制起点。（2）复制速度：原核快，真核慢。（3）端粒：原核环状 DNA 无末端问题；真核线性染色体需要端粒酶补齐末端。（4）核小体：真核复制伴随核小体组装；原核无组蛋白。（5）DNA 聚合酶种类：原核以 DNA pol III 为主；真核多种 DNA 聚合酶分工。</p>"},
+{star:true,t:"什么是密码子，密码子的特性？",b:"<p>（1）密码子：mRNA 分子上每 3 个相邻的核苷酸，编码一种氨基酸或终止信号，称为密码子，共 64 种。（2）特性：简并性——一种氨基酸可由多个密码子编码，同义密码子大多第三位碱基不同，可降低突变危害；通用性——绝大多数生物共用一套遗传密码（线粒体等少数例外）；方向性——阅读方向 5′→3′；无标点（无逗号）——连续阅读，无间隔碱基；不重叠——相邻密码子不共用碱基；摆动性——密码子第 1、2 位严格互补配对，第 3 位（对应反密码子第一位）配对有一定自由度，可非标准配对。</p>",m:"速记：三联体密码；简并性、通用、方向 5′→3′、无逗号、不重叠、摆动性。"},
+{star:false,t:"简述真核生物 mRNA 前体的加工过程？",b:"<p>（1）5′ 端加帽（m7GpppN）：保护 mRNA 不被降解，帮助核糖体识别。（2）3′ 端加 poly(A) 尾：提高 mRNA 稳定性，促进核外运。（3）RNA 剪接：剪接体切除内含子，连接外显子。（4）部分基因发生可变剪接，产生多种 mRNA。</p>"},
+{star:true,t:"简述原核生物乳糖操纵子的调控机制。",b:"<p>乳糖操纵子是负控诱导 + 正调控双重调控。（1）结构：结构基因 Z、Y、A，启动子 P，操纵序列 O，调节基因 I。（2）无乳糖：I 基因编码的阻遏蛋白结合 O 序列，阻挡 RNA 聚合酶，转录关闭。（3）有乳糖：异构乳糖作为诱导物结合阻遏蛋白，阻遏蛋白构象改变脱离操纵序列，转录开启。（4）葡萄糖效应（CAP 正调控）：葡萄糖低时 cAMP 升高，cAMP-CAP 复合物结合启动子上游，促进 RNA 聚合酶结合，增强转录。</p>"},
+{star:true,t:"简述色氨酸操纵子的调控机制（阻遏 + 衰减）。",b:"<p>（1）负控阻遏：色氨酸充足时，色氨酸结合阻遏蛋白使其活化，结合操纵序列抑制转录；色氨酸缺乏时阻遏蛋白脱离，转录开启。（2）衰减作用：色氨酸充足时核糖体快速翻译前导肽，形成终止发夹，转录提前终止；色氨酸不足时核糖体停滞，不形成终止结构，转录继续。</p>"},
+{star:false,t:"简述真核 mRNA 5′ 帽子和 poly(A) 尾的功能。",b:"<p>（1）7-甲基鸟苷三磷酸帽子：保护 mRNA 不被 5′ 核酸酶降解；协助 mRNA 出核；帮助核糖体识别起始翻译，提高翻译效率。（2）poly(A) 尾：增强 mRNA 稳定性，防止降解；促进 mRNA 核输出；提高翻译起始效率。</p>"},
+{star:true,t:"什么是转座子？转座作用的遗传学效应？",b:"<p>（1）转座子：存在于染色体 DNA 上可自主复制和位移的基本单位，分为插入序列（IS）和复合转座子。（2）遗传学效应：引起插入突变——插入基因内部破坏基因结构，造成基因失活；产生新基因——携带的抗性基因等整合到新位置，赋予宿主新性状；造成染色体畸变——同源序列间重组引发缺失、重复、倒位；促进生物进化——增加基因组多样性，推动物种演化。</p>"},
+{star:false,t:"列表比较前导链与后随链的生物合成。",b:"<p>见下方「对比速记表」第一张表：方向、合成方式、引物数目、子链/模板链方向、是否需要连接酶、合成效率逐项对比。</p>"},
+{star:true,t:"论述转录和复制的异同点。",b:"<p>相同点：都以 DNA 为模板；碱基互补；5′→3′ 方向合成；需要聚合酶。不同点：模板——复制两条链均为模板，转录仅一条模板链；底物——复制 dNTP，转录 NTP；产物——复制产生双链 DNA，转录产生 RNA；引物——复制需要 RNA 引物，转录不需要引物；保真度——复制高（校对 + 错配修复），转录保真度较低。详见速记表第二张。</p>"},
+{star:true,t:"论述 PCR 原理、反应体系、反应步骤。",b:"<p>（1）原理：体外模拟 DNA 复制，使用热稳定 Taq DNA 聚合酶。（2）反应体系：模板 DNA、上下游引物、dNTP、Taq 酶、缓冲液、Mg²⁺。（3）反应步骤：变性 94 ℃（双链解链）；退火 50–60 ℃（引物结合模板）；延伸 72 ℃（DNA 合成）；循环多次，靶片段指数扩增。</p>"}
+];
+
+/* ================= HELPERS ================= */
+function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function norm(s){return (s||"").replace(/[\s\u3000'′’`.,，。、；;：:（）()\-—_\/\\|]/g,"").toUpperCase();}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function htmlToText(h){var d=document.createElement("div");d.innerHTML=h;return (d.textContent||"").replace(/\n{2,}/g,"\n").trim();}
+
+/* Concept questions: type the definition, graded by scoring points (built from CONCEPTS) */
+function pointHit(pt,raw){
+var j=norm(raw||"");
+if(!j)return false;
+return pt.k.some(function(k){return j.indexOf(norm(k))>=0;});
+}
+function conceptHits(it,raw){
+var pts=it.points||[]; var hit=0; var details=[];
+pts.forEach(function(pt){var ok=pointHit(pt,raw); if(ok)hit++; details.push({t:pt.t,ok:ok});});
+return {hit:hit,total:pts.length,details:details};
+}
+function buildConceptQs(){
+return CONCEPTS.map(function(c){
+return {type:"concept",hw:0,src:"阶段测试一 · 原题 "+c.n,
+q:"默写概念："+c.t+"\n请打字写出这个概念的定义 / 含义（不用一字不差，写全打分点即可）。",
+term:c.t,def:c.d,points:c.pts||[],
+e:"概念「"+c.t+"」："+c.d};
+});
+}
+/* Essay questions: recall + self-grade (built from ESSAYS) */
+function buildEssayQs(){
+return ESSAYS.map(function(es,i){
+var ref=htmlToText(es.b);
+return {type:"essay",hw:0,src:"简答 / 论述 第 "+(i+1)+" 题"+(es.star?" · ★ 红笔重点":""),
+q:es.t,ref:ref,memo:es.m||"",
+e:es.m?("速记："+es.m):"对照参考要点查漏补缺。"};
+});
+}
+
+/* Build unified question pool */
+function buildPool(mode){
+var pool=[];
+function addChoice(list){list.forEach(function(c){pool.push({type:"choice",hw:c.hw,q:c.q,options:shuffle(c.o),a:c.a,e:c.e});});}
+function addJudge(list){list.forEach(function(c){pool.push({type:"judge",hw:c.hw,q:c.q,a:c.a,e:c.e});});}
+function addFill(list){list.forEach(function(c){pool.push({type:"fill",hw:c.hw,q:c.q,keys:c.keys,e:c.e});});}
+if(mode==="everything"){addChoice(CHOICE);addJudge(JUDGE);addFill(FILL);
+buildConceptQs().forEach(function(c){pool.push(c);});
+buildEssayQs().forEach(function(c){pool.push(c);});}
+else if(mode==="all"){addChoice(CHOICE);addJudge(JUDGE);addFill(FILL);}
+else if(mode==="choice"){addChoice(CHOICE);}
+else if(mode==="judge"){addJudge(JUDGE);}
+else if(mode==="fill"){addFill(FILL);}
+else if(mode==="concept"){buildConceptQs().forEach(function(c){pool.push(c);});}
+else if(mode==="essay"){buildEssayQs().forEach(function(c){pool.push(c);});}
+else if(mode.indexOf("hw")===0){
+var n=parseInt(mode.slice(2),10);
+addChoice(CHOICE.filter(function(c){return c.hw===n;}));
+addJudge(JUDGE.filter(function(c){return c.hw===n;}));
+addFill(FILL.filter(function(c){return c.hw===n;}));
+}
+return shuffle(pool);
+}
+
+/* ================= QUIZ ENGINE ================= */
+var quiz=null; // {items:[], idx:0, answers:{}, submitted:false, results:[]}
+var wrongItems=[];
+
+function typeLabel(t){return t==="choice"?"选择题":(t==="concept"?"概念题":(t==="judge"?"判断题":(t==="essay"?"简答 / 论述":"填空题")));}
+
+function startQuiz(items){
+quiz={items:items,idx:0,answers:{},notes:{},submitted:false,results:[]};
+document.getElementById("launcher").classList.add("hidden");
+document.getElementById("resultBox").classList.add("hidden");
+document.getElementById("quizBox").classList.remove("hidden");
+renderQ();
+document.getElementById("quiz").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function renderQ(){
+var it=quiz.items[quiz.idx], total=quiz.items.length;
+document.getElementById("qCount").innerHTML='<span class="qtag">'+typeLabel(it.type)+'</span> 第 '+(quiz.idx+1)+' / '+total+' 题';
+document.getElementById("qHw").textContent=it.src?it.src:("作业 "+it.hw);
+document.getElementById("qBar").style.width=Math.round(((quiz.idx)/total)*100)+"%";
+document.getElementById("qStem").textContent=it.q;
+var body=document.getElementById("qBody"); body.innerHTML="";
+var saved=quiz.answers[quiz.idx];
+if(it.type==="choice"){
+var box=document.createElement("div"); box.className="opts";
+it.options.forEach(function(opt,i){
+var b=document.createElement("button"); b.className="opt"+(saved===opt?" sel":"");
+b.innerHTML='<span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(opt)+'</span>';
+b.onclick=function(){quiz.answers[quiz.idx]=opt;renderQ();};
+box.appendChild(b);
+});
+body.appendChild(box);
+} else if(it.type==="concept"){
+var cta=document.createElement("textarea"); cta.className="fillin"; cta.rows=4;
+cta.placeholder="在这里打字写定义，不用一字不差，写全打分点即可";
+cta.value=(typeof saved==="string"?saved:"");
+cta.setAttribute("autocomplete","off");
+cta.oninput=function(){quiz.answers[quiz.idx]=cta.value;updateNote();};
+body.appendChild(cta);
+var chint=document.createElement("div"); chint.className="fillhint";
+chint.textContent="本题共 "+(it.points?it.points.length:0)+" 个打分点，命中达到 60% 算对。先打字写完，再展开对照看漏了哪个点，对照后仍可修改。";
+body.appendChild(chint);
+var cref=document.createElement("div"); cref.className="refbox";
+var crb=document.createElement("button"); crb.className="btn ghost small"; crb.style.marginTop="10px";
+crb.textContent="写完了 · 显示定义与打分点对照";
+crb.onclick=function(){
+var show=!cref.classList.contains("show");
+if(show){
+var cur=quiz.answers[quiz.idx]||"";
+var res=conceptHits(it,cur);
+var lis=(it.points||[]).map(function(pt,i){
+var ok=res.details[i]&&res.details[i].ok;
+return '<li class="'+(ok?"hit":"miss")+'"><span class="st">'+(ok?"✓ 已命中":"✗ 未命中")+'</span>打分点 '+(i+1)+"："+esc(pt.t)+"</li>";
+}).join("");
+cref.innerHTML="<b>参考定义</b>\n"+esc(it.def)+'<ul class="pts">'+lis+'</ul><div class="ptscore">当前命中 '+res.hit+" / "+res.total+" 个打分点"+(res.total&&res.hit>=Math.ceil(res.total*0.6)?" · 已达到判对线":" · 还没达到判对线（60%）")+"</div>";
+cref.classList.add("show"); crb.textContent="收起对照";
+}else{cref.classList.remove("show"); crb.textContent="写完了 · 显示定义与打分点对照";}
+};
+body.appendChild(crb);
+body.appendChild(cref);
+} else if(it.type==="judge"){
+var box2=document.createElement("div"); box2.className="opts";
+[["√ 正确",true],["× 错误",false]].forEach(function(pair){
+var b=document.createElement("button"); b.className="opt"+(saved===pair[1]?" sel":"");
+b.innerHTML='<span>'+pair[0]+'</span>';
+b.onclick=function(){quiz.answers[quiz.idx]=pair[1];renderQ();};
+box2.appendChild(b);
+});
+body.appendChild(box2);
+} else if(it.type==="essay"){
+var ta=document.createElement("textarea"); ta.className="fillin"; ta.rows=5;
+ta.placeholder="先凭记忆写下这道题的要点（写不下也没关系，关键是先回忆）";
+ta.value=quiz.notes[quiz.idx]||"";
+ta.setAttribute("autocomplete","off");
+ta.oninput=function(){quiz.notes[quiz.idx]=ta.value;};
+body.appendChild(ta);
+var ref=document.createElement("div"); ref.className="refbox";
+ref.innerHTML="<b>参考要点</b>\n"+esc(it.ref)+(it.memo?'\n<span class="memo2">'+esc(it.memo)+"</span>":"");
+var rb2=document.createElement("button"); rb2.className="btn ghost small"; rb2.style.marginTop="10px";
+rb2.textContent="写完了 · 显示参考要点对照";
+rb2.onclick=function(){ref.classList.toggle("show");rb2.textContent=ref.classList.contains("show")?"收起参考要点":"显示参考要点对照";};
+body.appendChild(rb2);
+body.appendChild(ref);
+var lab=document.createElement("div"); lab.className="fillhint"; lab.style.marginTop="12px";
+lab.textContent="对照参考要点后，诚实自评（自评结果计入得分）：";
+body.appendChild(lab);
+var box3=document.createElement("div"); box3.className="opts"; box3.style.marginTop="8px";
+[["✓ 要点基本答全",true],["✗ 没答全 / 没记住",false]].forEach(function(pair){
+var b=document.createElement("button"); b.className="opt"+(saved===pair[1]?" sel":"");
+b.innerHTML="<span>"+pair[0]+"</span>";
+b.onclick=function(){quiz.answers[quiz.idx]=pair[1];renderQ();};
+box3.appendChild(b);
+});
+body.appendChild(box3);
+} else {
+var inp=document.createElement("input"); inp.type="text"; inp.className="fillin";
+inp.placeholder="输入答案（多空用顿号或逗号隔开）"; inp.value=saved||"";
+inp.setAttribute("autocomplete","off");
+inp.oninput=function(){quiz.answers[quiz.idx]=inp.value;updateNote();};
+body.appendChild(inp);
+var hint=document.createElement("div"); hint.className="fillhint";
+hint.textContent="共 "+it.keys.length+" 个空。依次填写，用「、」隔开；判分按要点匹配，顺序对上即可。";
+body.appendChild(hint);
+}
+document.getElementById("prevBtn").disabled=(quiz.idx===0);
+document.getElementById("nextBtn").disabled=(quiz.idx===total-1);
+updateNote();
+}
+function answeredCount(){var c=0;for(var k in quiz.answers){var v=quiz.answers[k];if(v!==undefined&&v!==null&&String(v).trim()!=="")c++;}return c;}
+function updateNote(){
+if(!quiz)return;
+document.getElementById("answeredNote").textContent="已答 "+answeredCount()+" / "+quiz.items.length+" 题 · 未答的题交卷时按错误计。";
+}
+
+function gradeFill(it,val){
+if(!val||!String(val).trim())return false;
+var parts=String(val).split(/[、,，;；\/\n]+/).map(norm).filter(Boolean);
+var keys=it.keys.map(norm);
+/* special-case operon fill (hw7): order-free */
+var orderFree=(it.hw===7);
+if(orderFree){
+var joined=norm(val);
+return keys.every(function(k){return joined.indexOf(k)>=0||k.indexOf(joined)>=0&&joined.length>1;}) &&
+keys.filter(function(k){return joined.indexOf(k)>=0;}).length===keys.length;
+}
+if(parts.length===1&&keys.length>1){
+var j=norm(val); var pos=-1;
+for(var i=0;i<keys.length;i++){var p=j.indexOf(keys[i],pos+1); if(p<0)return false; pos=p;}
+return true;
+}
+if(parts.length!==keys.length){
+var j2=norm(val); var pos2=-1;
+for(var i2=0;i2<keys.length;i2++){var p2=j2.indexOf(keys[i2],pos2+1); if(p2<0)return false; pos2=p2;}
+return true;
+}
+for(var i3=0;i3<keys.length;i3++){
+if(parts[i3]!==keys[i3]){
+/* allow 后随/滞后, 引物酶/引发酶, 操纵基因/操纵序列 variants */
+var ok=false;
+if(keys[i3]==="后随"&&(parts[i3]==="滞后"))ok=true;
+if(keys[i3]==="引物酶"&&(parts[i3]==="引发酶"))ok=true;
+if(keys[i3]==="操纵基因"&&(parts[i3]==="操纵序列"))ok=true;
+if(!ok)return false;
+}
+}
+return true;
+}
+function correctText(it){
+if(it.type==="choice")return it.a;
+if(it.type==="concept")return it.def+"（打分点："+(it.points||[]).map(function(p){return p.t;}).join("；")+"）";
+if(it.type==="judge")return it.a?"√ 正确":"× 错误";
+if(it.type==="essay")return "参考要点："+it.ref;
+return it.keys.join("、");
+}
+function mineText(it,v){
+if(it.type==="essay"){
+if(v===true)return "自评：要点基本答全";
+if(v===false)return "自评：没答全 / 没记住";
+var note=quiz&&quiz.notes?quiz.notes[quiz.items.indexOf(it)]:"";
+return note?("你写下的要点："+note+"（未自评）"):"（未自评）";
+}
+if(v===undefined||v===null||String(v).trim()==="")return "（未答）";
+if(it.type==="judge")return v?"√ 正确":"× 错误";
+return String(v);
+}
+function isRight(it,v){
+if(it.type==="choice")return v===it.a;
+if(it.type==="concept"){if(!v||!String(v).trim())return false; var r=conceptHits(it,String(v)); return r.total>0&&r.hit>=Math.ceil(r.total*0.6);}
+if(it.type==="judge")return v===it.a;
+if(it.type==="essay")return v===true;
+return gradeFill(it,v);
+}
+
+function submitQuiz(){
+var right=0; wrongItems=[]; var html="";
+quiz.items.forEach(function(it,i){
+var v=quiz.answers[i]; var ok=isRight(it,v);
+if(ok)right++; else wrongItems.push(it);
+var extra="";
+if(it.type==="concept"){
+var rr=conceptHits(it,typeof v==="string"?v:"");
+extra='<div class="re">打分点：命中 '+rr.hit+" / "+rr.total+" 个"+rr.details.map(function(d,j){return "\n"+(d.ok?"✓ ":"✗ ")+"打分点 "+(j+1)+"："+d.t;}).join("")+'</div>';
+}
+html+='<div class="review-item"><div class="rq">'+(ok?"✅ ":"❌ ")+(i+1)+'. '+esc(it.q)+'</div>'
++'<div class="ra">你的答案：<span class="'+(ok?"corr":"mine")+'">'+esc(mineText(it,v))+'</span>'
++(ok&&it.type!=="concept"?"":'　正确答案：<span class="corr">'+esc(correctText(it))+'</span>')+'</div>'
++extra
++'<div class="re">'+esc(it.e)+'</div></div>';
+});
+var total=quiz.items.length;
+document.getElementById("qBar").style.width="100%";
+document.getElementById("quizBox").classList.add("hidden");
+var rb=document.getElementById("resultBox"); rb.classList.remove("hidden");
+document.getElementById("scoreBig").textContent=right+" 分";
+document.getElementById("scoreOf").textContent="共 "+total+" 题，答对 "+right+" 题，答错 "+(total-right)+" 题"+(right===total?"，全对，稳了。":(right/total>=0.8?"，不错，错题再过一遍。":"，先看下面的解析，再重练错题。"));
+document.getElementById("reviewList").innerHTML=html;
+document.getElementById("retryWrongBtn").disabled=(wrongItems.length===0);
+document.getElementById("retryWrongBtn").textContent=wrongItems.length?("只重练错题（"+wrongItems.length+" 题）"):"没有错题";
+rb.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+document.getElementById("startBtn").onclick=function(){
+var mode=document.getElementById("modeSel").value;
+startQuiz(buildPool(mode));
+};
+document.getElementById("prevBtn").onclick=function(){if(quiz&&quiz.idx>0){quiz.idx--;renderQ();}};
+document.getElementById("nextBtn").onclick=function(){if(quiz&&quiz.idx<quiz.items.length-1){quiz.idx++;renderQ();}};
+document.getElementById("submitBtn").onclick=submitQuiz;
+document.getElementById("againBtn").onclick=function(){
+document.getElementById("resultBox").classList.add("hidden");
+document.getElementById("launcher").classList.remove("hidden");
+document.getElementById("quiz").scrollIntoView({behavior:"smooth",block:"start"});
+};
+document.getElementById("retryWrongBtn").onclick=function(){
+if(!wrongItems.length)return;
+/* re-shuffle options for choice items */
+var items=wrongItems.map(function(it){
+if(it.type==="choice"){var c={};for(var k in it)c[k]=it[k];c.options=shuffle(it.options);return c;}
+return it;
+});
+startQuiz(shuffle(items));
+};
+
+/* ================= CONCEPTS ================= */
+var cg=document.getElementById("conceptGrid");
+CONCEPTS.forEach(function(c){
+var b=document.createElement("button"); b.className="concept";
+b.innerHTML='<span class="term">'+esc(c.t)+'</span> <span class="num">（原题 '+c.n+'）</span>'
++'<div class="hint">点开看定义</div><div class="def">'+esc(c.d)+'</div>';
+b.onclick=function(){b.classList.toggle("open");};
+cg.appendChild(b);
+});
+
+/* ================= ESSAYS ================= */
+var el=document.getElementById("essayList");
+ESSAYS.forEach(function(es,i){
+var d=document.createElement("div"); d.className="essay";
+var body=es.b+(es.m?'<div class="memo">'+esc(es.m)+'</div>':"");
+d.innerHTML='<button type="button">'+(es.star?'<span class="star">★</span>':"")+'<span>'+(i+1)+'. '+esc(es.t)+'</span></button><div class="body">'+body+'</div>';
+d.querySelector("button").onclick=function(){d.classList.toggle("open");};
+el.appendChild(d);
+});
+</script>
+</body>
+</html>
