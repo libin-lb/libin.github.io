@@ -139,7 +139,7 @@ footer{text-align:center;color:#999;font-size:12px;margin-top:18px;line-height:1
 
   <section class="card" id="settingsCard">
     <h2>设置与提醒</h2>
-    <div class="row"><label>学期第一周周一<div class="hint">周数算错了就改这里，改完本周自动重算</div></label><input type="date" id="semStart" value="2026-08-31"></div>
+    <div class="row"><label>学期第一周周一<div class="hint">周数算错了就改这里，改完本周自动重算</div></label><input type="date" id="semStart" value="2026-08-24"></div>
     <div class="row"><label>本周是 <b id="weekHint">—</b></label></div>
     <div class="row"><label>上课 / 下课提醒<div class="hint">到点弹出提示音、震动与通知</div></label><input type="checkbox" id="remindToggle" checked></div>
     <div class="row"><label>提前提醒时间</label><select id="leadSelect"><option value="5">5 分钟</option><option value="10" selected>10 分钟</option><option value="15">15 分钟</option><option value="30">30 分钟</option></select></div>
@@ -311,10 +311,12 @@ const CLASSES={};
 for(const k in RAW){ CLASSES[k]=RAW[k].map((r,i)=>({id:k+'-'+i,name:r[0],teacher:r[1],room:r[2],day:r[3],start:r[4],end:r[5],weeks:r[6]})); }
 const PALETTE=[['#e3f2e1','#2e6b34'],['#e0ecf7','#2b5a8a'],['#fdeeda','#8a5a1d'],['#f3e4f5','#6d2b7a'],['#e0f2f1','#20645e'],['#fce4ec','#8a2b4d'],['#fff3d6','#7a6210'],['#e8eaf6','#3d438a']];
 /* ===== 设置与状态 ===== */
-const DEF={cls:'2401',semStart:'2026-08-31',remind:true,lead:10,sound:true,vibrate:true};
+const DEF={cls:'2401',semStart:'2026-08-24',remind:true,lead:10,sound:true,vibrate:true};
 let settings={...DEF};
 try{Object.assign(settings,JSON.parse(localStorage.getItem('jmsu_settings_v1')||'{}'));}catch(e){}
 function saveSettings(){try{localStorage.setItem('jmsu_settings_v1',JSON.stringify(settings));}catch(e){}}
+/* 旧默认值 2026-08-31 有误，学期实际从 2026-08-24 开始；没手动改过开始日的旧记录自动迁移 */
+if(settings.semStart==='2026-08-31'){settings.semStart='2026-08-24';saveSettings();}
 let myCourses=[];
 try{myCourses=JSON.parse(localStorage.getItem('jmsu_my_courses_v1')||'[]');}catch(e){myCourses=[];}
 function saveMy(){try{localStorage.setItem('jmsu_my_courses_v1',JSON.stringify(myCourses));}catch(e){}}

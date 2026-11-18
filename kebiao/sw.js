@@ -1,5 +1,5 @@
 /* 佳木斯大学课程表 · 离线缓存 */
-const CACHE = 'jmsu-kebiao-v2';
+const CACHE = 'jmsu-kebiao-v3';
 const ASSETS = ['./', 'index.html', 'manifest.json', 'icon.svg'];
 
 self.addEventListener('install', event => {
