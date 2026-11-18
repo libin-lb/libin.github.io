@@ -47,8 +47,6 @@ h1{font-size:20px;margin:2px 0 2px}
 .daycol.today{background-color:#f4faf1}
 .block{position:absolute;border-radius:8px;padding:4px 5px;font-size:11px;line-height:1.35;overflow:hidden;cursor:pointer;border-left:3px solid;box-shadow:0 1px 2px rgba(0,0,0,.06)}
 .block .rn{font-size:10px;opacity:.85;margin-top:1px}
-.nowline{position:absolute;left:var(--gut);right:0;height:2px;background:#e53935;z-index:5;pointer-events:none}
-.nowline::before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:#e53935}
 .hidden{display:none!important}
 section.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:12px}
 section.card h2{font-size:16px;margin:0 0 8px}
@@ -131,7 +129,6 @@ footer{text-align:center;color:#999;font-size:12px;margin-top:18px;line-height:1
     <div class="grid-head" id="gridHead"></div>
     <div class="grid-body" id="gridBody">
       <div class="gutter" id="gutter"></div>
-      <div class="nowline hidden" id="nowLine"></div>
     </div>
   </div></div>
 
@@ -246,7 +243,7 @@ const RAW={
  ['分子生物学','杜春梅','1A03-205',5,1,2,'1-4,7-10'],
  ['遗传学','张丽敏','1A03-202',5,3,4,'1-5,7-17'],
  ['细胞工程','翟登攀','1C06-301',5,5,6,'1-5,8-14'],
- ['形势与政策','赵莹','一区A院',5,9,10,'12-13'],
+ ['形势与政策','赵莹','一区A院',6,9,10,'12-13'],
  ['分子生物学','杜春梅','微生物学实验室1A18-614',6,1,8,'1'],
  ['植物组织培养','申健','植物生理学实验室1A18-326',6,1,8,'7'],
  ['分子生物学','杜春梅','微生物学实验室1A18-614',7,1,8,'1'],
@@ -273,8 +270,8 @@ const RAW={
  ['分子生物学','杜春梅','1A03-205',5,1,2,'1-4,7-10'],
  ['遗传学','张丽敏','1A03-202',5,3,4,'1-5,7-17'],
  ['细胞工程','翟登攀','1C06-301',5,5,6,'1-5,8-14'],
- ['遗传学实验','翟登攀','遗传学实验室1A18-331',5,9,10,'9-10'],
- ['形势与政策','赵莹','一区A院',5,9,10,'12-13'],
+ ['遗传学实验','翟登攀','遗传学实验室1A18-331',6,9,10,'9-10'],
+ ['形势与政策','赵莹','一区A院',6,9,10,'12-13'],
  ['分子生物学','杜春梅','微生物学实验室1A18-614',6,1,8,'2'],
  ['植物组织培养','申健','植物生理学实验室1A18-326',6,1,8,'8'],
  ['分子生物学','杜春梅','微生物学实验室1A18-614',7,1,8,'2'],
@@ -301,7 +298,7 @@ const RAW={
  ['分子生物学','杜春梅','1A03-205',5,1,2,'1-4,7-10'],
  ['遗传学','张丽敏','1A03-202',5,3,4,'1-5,7-17'],
  ['细胞工程','翟登攀','1C06-301',5,5,6,'1-5,8-14'],
- ['形势与政策','赵莹','一区A院',5,9,10,'12-13'],
+ ['形势与政策','赵莹','一区A院',6,9,10,'12-13'],
  ['分子生物学','杜春梅','微生物学实验室1A18-614',6,1,8,'3'],
  ['植物组织培养','申健','植物生理学实验室1A18-326',6,1,8,'4'],
  ['遗传学实验','翟登攀','遗传学实验室1A18-331',6,1,4,'9-10'],
@@ -403,7 +400,6 @@ function renderGrid(){
   }
   const body=$('gridBody');
   body.querySelectorAll('.daycol').forEach(n=>n.remove());
-  const nowLine=$('nowLine');
   for(let d=1;d<=7;d++){
     const col=document.createElement('div');
     const colDate=new Date(mon.getTime()+(d-1)*DAY_MS);
@@ -422,25 +418,11 @@ function renderGrid(){
       b.addEventListener('click',()=>openModal(c));
       col.appendChild(b);
     }
-    body.insertBefore(col,nowLine);
+    body.appendChild(col);
   }
   $('weekLabel').textContent='第 '+viewWeek+' 周';
   const sun=new Date(mon.getTime()+6*DAY_MS);
   $('weekRange').textContent=fmtMD(mon)+' - '+fmtMD(sun);
-  updateNowLine();
-}
-function updateNowLine(){
-  const line=$('nowLine'),now=new Date();
-  if(viewWeek!==weekOf(now)){line.classList.add('hidden');return;}
-  const mins=now.getHours()*60+now.getMinutes()+now.getSeconds()/60;
-  if(mins<PERIODS[0].s||mins>PERIODS[9].e){line.classList.add('hidden');return;}
-  let y=0;
-  for(let i=0;i<10;i++){
-    const p=PERIODS[i];
-    if(mins>=p.s&&mins<=p.e){y=i*ROW_H+(mins-p.s)/(p.e-p.s)*ROW_H;break;}
-    if(i<9&&mins>p.e&&mins<PERIODS[i+1].s){y=(i+1)*ROW_H;break;}
-  }
-  line.style.top=y+'px';line.classList.remove('hidden');
 }
 function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
 /* ===== 状态卡与今日列表 ===== */
@@ -726,7 +708,6 @@ let lastMinute=-1,lastDay=dateKey(new Date());
 setInterval(()=>{
   const now=new Date();
   renderStatus(now);
-  updateNowLine();
   checkReminders(now);
   const m=now.getHours()*60+now.getMinutes();
   if(m!==lastMinute){lastMinute=m;renderToday(now);}
