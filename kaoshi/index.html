@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>生化分离考试刷题</title>
+<meta name="description" content="生化分离与分析技术考试刷题：填空、单选、多选、判断、简答，题目选项打乱，答完判分，可添加到手机桌面。">
+<meta name="theme-color" content="#4a6fd8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="刷题">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<style>
+:root{--blue:#4a6fd8;--blue-d:#3a5cb8;--bg:#f0f3fb;--card:#fff;--text:#222;--muted:#7a7a7a;--line:#e7e7e7;--ok:#2e7d32;--okbg:#e3f2e1;--bad:#c62828;--badbg:#fbe9e7}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.55;padding-bottom:env(safe-area-inset-bottom)}
+.wrap{max-width:760px;margin:0 auto;padding:14px 12px 44px}
+h1{font-size:20px;margin:2px 0 2px}
+.sub{color:var(--muted);font-size:12px;margin-bottom:10px}
+.seg{display:flex;background:#e2e8f8;border-radius:11px;padding:3px;gap:3px;margin-bottom:12px}
+.seg button{flex:1;border:0;background:transparent;padding:8px 2px;border-radius:8px;font-size:14px;color:#3d4f86;cursor:pointer}
+.seg button.on{background:#fff;color:var(--blue-d);font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.chip{border:1px solid #ccd6f2;background:#fff;border-radius:20px;padding:6px 13px;font-size:13px;cursor:pointer;color:#3d4f86}
+.chip.on{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:700}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 15px;margin-bottom:10px}
+.qhead{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.qnum{font-weight:700;font-size:13px;color:#999}
+.tag{font-size:11px;padding:2px 8px;border-radius:10px;background:#e8eefc;color:#3a5cb8}
+.tag.fill{background:#e3f2e1;color:#2e6b34}
+.tag.multi{background:#f3e4f5;color:#6d2b7a}
+.tag.judge{background:#fdeeda;color:#8a5a1d}
+.qstem{font-size:15px}
+.qstem .blank{display:inline-block;min-width:76px;border-bottom:2px solid #9db2e8;margin:0 3px}
+.qstem .blank input{border:0;outline:0;width:100%;font-size:15px;padding:1px 4px;text-align:center;background:transparent;color:var(--blue-d)}
+.qstem .blank input:disabled{color:#222;-webkit-text-fill-color:#222}
+.opts{margin-top:10px;display:flex;flex-direction:column;gap:7px}
+.opt{display:flex;gap:9px;align-items:flex-start;border:1px solid #dfe4f0;border-radius:10px;padding:9px 11px;cursor:pointer;font-size:14px;background:#fbfbff}
+.opt .key{flex:0 0 20px;height:20px;line-height:20px;text-align:center;border:1.5px solid #b9c4e2;border-radius:50%;font-size:12px;color:#5a6ca8;margin-top:1px}
+.opt.multi .key{border-radius:5px}
+.opt.sel{border-color:var(--blue);background:#eef2fe}
+.opt.sel .key{background:var(--blue);border-color:var(--blue);color:#fff}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.right .key{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.opt.wrong .key{background:var(--bad);border-color:var(--bad);color:#fff}
+.opt.dim{opacity:.6}
+.judge-row{display:flex;gap:10px;margin-top:10px}
+.judge-row button{flex:1;border:1.5px solid #dfe4f0;background:#fbfbff;border-radius:10px;padding:10px;font-size:15px;cursor:pointer}
+.judge-row button.sel{border-color:var(--blue);background:#eef2fe;font-weight:700;color:var(--blue-d)}
+.judge-row button.right{border-color:var(--ok);background:var(--okbg);color:var(--ok);font-weight:700}
+.judge-row button.wrong{border-color:var(--bad);background:var(--badbg);color:var(--bad);font-weight:700}
+.fb{margin-top:10px;border-radius:10px;padding:9px 11px;font-size:13px;display:none}
+.fb.show{display:block}
+.fb.ok{background:var(--okbg);color:var(--ok)}
+.fb.no{background:var(--badbg);color:var(--bad)}
+.fb .ans{font-weight:700}
+.mark{margin-left:auto;font-size:16px;font-weight:700}
+.mark.ok{color:var(--ok)}
+.mark.no{color:var(--bad)}
+.score{background:linear-gradient(135deg,#5a7fe0,#3a5cb8);color:#fff;border-radius:14px;padding:16px;margin-bottom:12px}
+.score .big{font-size:22px;font-weight:700}
+.score .sm{font-size:13px;opacity:.92;margin-top:4px}
+.score .acts{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;background:var(--blue);color:#fff;border-radius:9px;padding:9px 16px;font-size:14px;cursor:pointer}
+.btn:active{opacity:.85}
+.btn.ghost{background:#eef2fe;color:#3a5cb8}
+.btn.white{background:#fff;color:var(--blue-d);font-weight:700}
+.btn.small{padding:6px 12px;font-size:13px}
+.btn.danger{background:#fbe9e7;color:#c62828}
+.bottombar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px;z-index:40;backdrop-filter:blur(6px)}
+.bottombar .prog{flex:1;font-size:14px}
+.bottombar .prog b{color:var(--blue-d)}
+.bottombar .btn{padding:10px 26px;font-size:15px;font-weight:700}
+.hidden{display:none!important}
+section.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+section.card h2{font-size:16px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:12px}
+textarea{width:100%;min-height:74px;border:1px solid #d9d9d9;border-radius:9px;padding:9px 10px;font-size:14px;font-family:inherit;resize:vertical;margin-top:8px}
+.pts{margin:10px 0 0;padding-left:2px}
+.pts li{margin:5px 0;list-style:none;padding-left:20px;position:relative}
+.pts li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:700}
+.fullans{background:#f7f8fd;border-radius:10px;padding:10px 12px;font-size:13px;margin-top:10px;line-height:1.7}
+.ekey{font-size:12px;color:var(--muted);margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:13px;margin-top:8px}
+th,td{border:1px solid #e8e8e8;padding:7px 8px;text-align:left;vertical-align:top}
+th{background:#eef2fe}
+.kw{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.kw div{background:#f7f8fd;border-radius:9px;padding:8px 10px;font-size:13px}
+.kw b{color:var(--blue-d)}
+.note{background:#fffbe6;border:1px solid #f0e3a0;border-radius:10px;padding:10px 12px;font-size:13px;margin-top:10px}
+.steps{margin:6px 0 0;padding-left:18px}
+.steps li{margin:4px 0}
+footer{text-align:center;color:#999;font-size:12px;margin-top:18px;line-height:1.7}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:84px;background:rgba(30,30,30,.92);color:#fff;padding:11px 18px;border-radius:24px;font-size:14px;z-index:60;max-width:92vw;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>生化分离考试刷题</h1>
+  <div class="sub">生化分离与分析技术 · 填空 20 · 单选 20 · 多选 10 · 判断 20 · 简答 15 · 题目与选项每次打乱</div>
+
+  <div class="seg" id="tabSeg">
+    <button data-tab="quiz" class="on">刷题</button>
+    <button data-tab="essay">简答</button>
+    <button data-tab="cheat">速记</button>
+    <button data-tab="setup">设置</button>
+  </div>
+
+  <section id="tab-quiz">
+    <div class="chips" id="modeChips">
+      <button class="chip on" data-mode="all">全部 70 题</button>
+      <button class="chip" data-mode="fill">填空 20</button>
+      <button class="chip" data-mode="single">单选 20</button>
+      <button class="chip" data-mode="multi">多选 10</button>
+      <button class="chip" data-mode="judge">判断 20</button>
+      <button class="chip" data-mode="wrong">错题本 <span id="wrongCount"></span></button>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <span class="muted" id="bestLine"></span>
+      <button class="btn small ghost" id="reshuffleBtn" style="margin-left:auto">重新出题（打乱）</button>
+    </div>
+    <div id="scorePanel"></div>
+    <div id="quizList"></div>
+    <div style="height:74px"></div>
+  </section>
+
+  <section id="tab-essay" class="hidden">
+    <div class="chips" id="essayChips">
+      <button class="chip on" data-ef="all">全部 15 题</button>
+      <button class="chip" data-ef="todo">未掌握</button>
+      <button class="chip" data-ef="done">已掌握</button>
+      <span class="muted" id="essayProg" style="align-self:center"></span>
+    </div>
+    <div id="essayList"></div>
+  </section>
+
+  <section id="tab-cheat" class="hidden">
+    <section class="card">
+      <h2>膜分离对比</h2>
+      <table>
+        <tr><th></th><th>孔径</th><th>机理</th><th>压差</th><th>截留对象</th></tr>
+        <tr><td><b>微滤</b></td><td>0.1~10 μm</td><td>筛分截留</td><td>0.1~0.6 MPa</td><td>菌体、大颗粒</td></tr>
+        <tr><td><b>超滤</b></td><td>0.01~0.1 μm</td><td>分子大小与分子筛效应</td><td>0.1~0.6 MPa</td><td>大分子、蛋白；小分子盐透过</td></tr>
+        <tr><td><b>纳滤</b></td><td>0.001~0.01 μm</td><td>截留</td><td>0.1~0.6 MPa</td><td>二价离子截留，单价离子部分透过</td></tr>
+        <tr><td><b>反渗透</b></td><td>&lt;0.001 μm</td><td>渗透的逆过程</td><td>2~10 MPa</td><td>几乎所有溶质</td></tr>
+      </table>
+    </section>
+    <section class="card">
+      <h2>凝集 vs 絮凝</h2>
+      <table>
+        <tr><th></th><th>机理</th><th>产物</th></tr>
+        <tr><td><b>凝集</b></td><td>投加化学物质使胶体脱稳，中和表面电荷、消除双电层</td><td>1 mm 块状凝聚体</td></tr>
+        <tr><td><b>絮凝</b></td><td>絮凝剂架桥作用，交联成网</td><td>10 mm 大絮团</td></tr>
+      </table>
+      <p class="muted" style="margin:8px 0 0">先凝聚脱稳、再絮凝长大，整套操作叫混凝。</p>
+    </section>
+    <section class="card">
+      <h2>初级成核 vs 二次成核</h2>
+      <table>
+        <tr><th></th><th>条件</th><th>特点</th></tr>
+        <tr><td><b>初级成核</b></td><td>无现存晶体，自发形成</td><td>需高过饱和度，难控制、易爆发</td></tr>
+        <tr><td><b>二次成核</b></td><td>已有晶体，碰撞摩擦碎片诱发</td><td>需过饱和度低，工业主要成核方式</td></tr>
+      </table>
+    </section>
+    <section class="card">
+      <h2>高频关键词</h2>
+      <div class="kw">
+        <div><b>硫酸铵</b><br>最常用盐析剂</div>
+        <div><b>二氧化碳</b><br>超临界萃取最常用流体</div>
+        <div><b>硅藻土</b><br>生物工业常用助滤剂</div>
+        <div><b>草酸钠</b><br>除 Ca²⁺，生成草酸钙沉淀</div>
+        <div><b>三聚磷酸钠</b><br>除 Mg²⁺，形成可溶性络合物</div>
+        <div><b>黄血盐</b><br>除 Fe³⁺，生成普鲁士蓝沉淀</div>
+        <div><b>分离因子 β</b><br>表征两组分分离难易</div>
+        <div><b>pH &lt; pKa</b><br>弱酸性物质利于转入有机相</div>
+        <div><b>晶种</b><br>介稳区加入促生长，不自发大量成核</div>
+        <div><b>自由水</b><br>热风即可除去</div>
+        <div><b>细胞壁</b><br>细胞破碎的主要阻力</div>
+        <div><b>范德华力</b><br>物理吸附作用力</div>
+        <div><b>过饱和度</b><br>结晶推动力</div>
+        <div><b>反萃取</b><br>产物从有机相转回水相</div>
+        <div><b>错流</b><br>提高流速减弱浓差极化</div>
+        <div><b>介电常数↓</b><br>有机溶剂沉淀蛋白的原理</div>
+        <div><b>凝胶过滤</b><br>大分子先出，小分子后出</div>
+        <div><b>分配定律</b><br>稀溶液、不影响互溶、同一分子类型</div>
+        <div><b>包涵体</b><br>表达过高致聚集；纯化：破碎→洗涤→溶解→复性</div>
+        <div><b>电渗析</b><br>推动力是电场，不是压力</div>
+      </div>
+    </section>
+  </section>
+
+  <section id="tab-setup" class="hidden">
+    <section class="card">
+      <h2>添加到手机桌面（安卓 / 苹果）</h2>
+      <p style="margin:8px 0 0"><b>iPhone（Safari）：</b></p>
+      <ol class="steps"><li>用 Safari 打开本页面</li><li>点底部分享按钮 <b>↑</b></li><li>选「添加到主屏幕」→ 点「添加」</li></ol>
+      <p style="margin:10px 0 0"><b>安卓（Chrome）：</b></p>
+      <ol class="steps"><li>用 Chrome 打开本页面</li><li>点右上角菜单 <b>⋮</b></li><li>选「添加到主屏幕」或「安装应用」</li></ol>
+      <p class="muted" style="margin-top:10px">添加后桌面上会出现「刷题」图标；首次打开后会自动缓存，之后没网也能刷题。</p>
+    </section>
+    <section class="card">
+      <h2>刷题记录</h2>
+      <p class="muted" style="margin:0 0 10px">答题记录、错题本和简答自评只保存在这台手机的浏览器里，不会上传；每个人的进度互不影响。</p>
+      <button class="btn danger" id="clearAllBtn">清除全部刷题记录</button>
+    </section>
+    <section class="card">
+      <h2>题目来源</h2>
+      <p class="muted" style="margin:0">题目与答案来自生化分离考试复习资料（填空、单选、多选、判断、简答共 85 题），答案以资料原文为准。</p>
+    </section>
+  </section>
+
+  <footer>生化分离与分析技术 · 考试刷题<br>题目每次打开自动打乱顺序与选项</footer>
+</div>
+
+<div class="bottombar hidden" id="bottomBar">
+  <span class="prog" id="progressText">已答 0/0</span>
+  <button class="btn" id="submitBtn">交卷判分</button>
+</div>
+<div class="toast hidden" id="toast"></div>
+<script>
+'use strict';
+/* ===== 填空题：stem 用 ___ 占位，a 为每空可接受答案（首个为标准答案） ===== */
+const FILL=[
+ {q:'生物下游加工过程中，产品质量要求高、产物稳定性差、___、___是发酵液原料四大主要特点。',a:[['产物浓度低'],['组分复杂']]},
+ {q:'板框压滤机主要由滤板、___和滤布组成，属于___式过滤设备。',a:[['滤框'],['间歇式','间歇']]},
+ {q:'盐溶现象是指在中性盐___离子强度条件下，蛋白质溶解度不降反升。',a:[['低']]},
+ {q:'溶有目标产物的有机相与新鲜水相接触，使产物重新转回水相的操作称为___。',a:[['反萃取','反萃']]},
+ {q:'膜分离中发生浓差极化时，提高___流速可有效削弱该现象。',a:[['错流','错流过滤','切向流']]},
+ {q:'真空蒸发可以降低料液的___，以此保护热敏性生化产物。',a:[['沸点']]},
+ {q:'絮凝剂依靠___作用吸附胶体颗粒，形成大絮团。',a:[['吸附架桥','架桥']]},
+ {q:'混凝是___和絮凝共同作用的过程。',a:[['凝集']]},
+ {q:'等电点沉淀时，蛋白质分子净电荷等于___，此时溶解度最低。',a:[['零','0']]},
+ {q:'盐析过程中，蛋白质溶解度随中性盐离子强度升高先___后___。',a:[['升高'],['降低']]},
+ {q:'吸附分为物理吸附和化学吸附，物理吸附作用力是___。',a:[['范德华力','范德华']]},
+ {q:'结晶操作里，溶液实际浓度与饱和浓度的差值叫作___，是结晶的推动力。',a:[['过饱和度']]},
+ {q:'结晶过程中，晶核形成分为___成核和___成核两种方式。',a:[['初级','一级'],['二次','二级']]},
+ {q:'生物分离过程一般分为发酵液预处理、产物提取、产物精制和___四个阶段。',a:[['成品加工处理','成品加工','成品处理']]},
+ {q:'结晶过程包括过饱和溶液的形成、___和晶体的生长。',a:[['晶核生成','成核','晶核形成']]},
+ {q:'有机溶剂沉淀法是在含有溶质的水溶液中加入一定量亲水的有机溶剂，降低溶质的溶解度使其沉淀析出。其原理是降低溶剂介电常数和___。',a:[['破坏水化膜','破坏水化层']]},
+ {q:'细胞破碎的阻力主要来自于___。',a:[['细胞壁']]},
+ {q:'结晶过程中，介稳区内加入___可促使晶体生长，但一般不会___大量晶核。',a:[['晶种'],['自发产生','自发']]},
+ {q:'干燥过程中，___水分可以简单热风除去。',a:[['自由','自由水']]},
+ {q:'发酵液预处理中，为提高过滤速度，常加入助滤剂，助滤剂是不可压缩的多孔微粒，生物工业常用___。',a:[['硅藻土']]}
+];
+/* ===== 单选题：a 为正确选项下标 ===== */
+const SINGLE=[
+ {q:'下列细胞破碎方法中，属于物理机械破碎、不需外加化学试剂的是（ ）。',o:['溶菌酶酶解','反复冻融','自溶作用','EDTA处理'],a:1},
+ {q:'下列细胞破碎方法中，不属于机械法的是（ ）。',o:['高压匀浆法','珠磨法','超声波法','酶溶法'],a:3},
+ {q:'在液液萃取中，用于表征两组分分离难易程度的参数是（ ）。',o:['分配比D','分离因子β','分配系数K₀','相比R'],a:1},
+ {q:'弱酸性物质萃取时，下列条件更有利于溶质转入有机相的是（ ）。',o:['pH远大于pKa','pH小于pKa','pH等于pI','pH很高且完全电离'],a:1},
+ {q:'超临界流体萃取中，温度一定时升高压力，流体的密度和溶解能力通常（ ）。',o:['增大','减小','不变','先增大后变小'],a:0},
+ {q:'下列关于压力驱动膜分离的描述，正确的是（ ）。',o:['微滤截留小分子离子，超滤截留菌体','超滤依靠电荷效应实现分离，和分子大小无关','纳滤可以截留二价离子，单价离子部分透过','微滤、超滤、纳滤的分离推动力为浓度差'],a:2},
+ {q:'下列不属于常见膜组件形式的是（ ）。',o:['板框式','螺旋卷式','中空纤维式','碟片式离心机'],a:3},
+ {q:'离子交换色谱分离的主要依据是组分之间的（ ）。',o:['分子大小差异','电荷性质差异','疏水性差异','沸点差异'],a:1},
+ {q:'结晶操作中，二次成核的主要诱因是（ ）。',o:['溶液绝对纯净且无晶体','已有晶体相互摩擦碰撞产生微小晶核碎片','大幅度快速降温','溶剂瞬间大量蒸发'],a:1},
+ {q:'生物分离工艺流程中，通常位于最后的是（ ）。',o:['固液分离','细胞破碎','提取','浓缩、结晶与干燥'],a:3},
+ {q:'基因工程大肠杆菌中形成包涵体的主要原因是（ ）。',o:['培养基营养成分不足','培养温度过低','目标产物表达水平过高','细胞代谢水平过高'],a:2},
+ {q:'关于有机溶剂沉淀蛋白质，说法正确的是（ ）。',o:['升高溶液介电常数','降低介电常数，促进蛋白质聚集析出','只能用于核酸沉淀','适合在高温下操作'],a:1},
+ {q:'反胶束萃取最适合分离的物质是（ ）。',o:['活性蛋白质','粗大菌体颗粒','纤维素固体','塑料大分子'],a:0},
+ {q:'超临界萃取中最常用的工作流体是（ ）。',o:['水','二氧化碳','乙醇','氯仿'],a:1},
+ {q:'超滤的分离依据主要是（ ）。',o:['电荷差异','分子大小与分子筛效应','溶解度差异','分配系数差异'],a:1},
+ {q:'下列不属于大网格吸附树脂特点的是（ ）。',o:['依靠范德华力吸附','不发生离子交换','适合有机物吸附','必须带有可交换离子基团'],a:3},
+ {q:'凝胶过滤色谱中组分的流出次序是（ ）。',o:['分子量大的先流出','分子量小的先流出','带正电的先流出','极性大的先流出'],a:0},
+ {q:'结晶过程中的初级成核是指（ ）。',o:['体系中无现存晶体时自发生成新晶核','晶体碰撞产生碎片晶核','加入外部晶种后长大','二次成核的另一种叫法'],a:0},
+ {q:'盐析法中常用的沉淀剂是（ ）。',o:['乙醇','丙酮','硫酸铵','聚乙二醇'],a:2},
+ {q:'色谱分离法中，根据固定相形式分类，不包括以下哪种（ ）。',o:['柱色谱','纸色谱','吸附色谱','薄层色谱'],a:2}
+];
+/* ===== 多选题：a 为正确选项下标数组 ===== */
+const MULTI=[
+ {q:'发酵液预处理可采用的手段有（ ）。',o:['加热','调pH','絮凝','凝胶过滤脱盐'],a:[0,1,2]},
+ {q:'关于盐析操作，说法正确的有（ ）。',o:['硫酸铵是生化分离最常用盐析剂','盐析沉淀一般可逆，脱盐后蛋白活性可恢复','盐析可以用来粗分不同蛋白','盐析可以完全除去小分子杂质'],a:[0,1,2]},
+ {q:'液液萃取时，消除乳化可以采取的措施有（ ）。',o:['继续剧烈振荡混合','加盐破乳','低速离心破乳','静置较长时间分层'],a:[1,2,3]},
+ {q:'下面关于膜分离浓差极化说法正确的是（ ）。',o:['属于可逆现象，不等于膜污染','提高料液流速能够减轻浓差极化','浓差极化一旦发生，膜就彻底报废','膜表面溶质积累，造成局部浓度升高'],a:[0,1,3]},
+ {q:'关于反胶团萃取技术，下列说法正确的有（ ）。',o:['是近年来发展起来的新型萃取分离技术','主要适合于蛋白质的提取和分离','表面活性剂在水溶液中形成胶团萃取蛋白质','表面活性剂在有机溶剂中形成反胶束相萃取蛋白质'],a:[0,1,3]},
+ {q:'属于非机械法破碎细胞的手段有（ ）。',o:['渗透压冲击','表面活性剂处理','珠磨破碎','螯合剂处理细胞壁'],a:[0,1,3]},
+ {q:'可以用于破乳的操作有（ ）。',o:['离心处理','适当加热','添加电解质','剧烈高速搅拌'],a:[0,1,2]},
+ {q:'透析过程的特点包括（ ）。',o:['溶质以扩散形式移动','膜内有流体流动','小分子从高浓度侧渗透','需外加压力驱动'],a:[0,2]},
+ {q:'多效蒸发的特点包括（ ）。',o:['充分利用二次蒸汽热量，节约生蒸汽','效数越多，设备投资成本越高','效数增加会存在有效温差损失的限制','适合热敏性物料浓缩，一般可搭配真空操作'],a:[0,1,2,3]},
+ {q:'关于微滤，说法正确的有（ ）。',o:['以多孔薄膜为介质','压力差为推动力','分离0.1-10 μm粒子','仅靠扩散作用分离'],a:[0,1,2]}
+];
+/* ===== 判断题 ===== */
+const JUDGE=[
+ {q:'发酵原料液中产物浓度越低，提取过程的收率和浓缩倍数越容易提高。',a:false},
+ {q:'加热法预处理只适用于目标产物热稳定性较好的发酵液体系。',a:true},
+ {q:'絮凝剂用量越多，絮凝效果越好。',a:false},
+ {q:'有机溶剂与水混合后使溶液介电常数降低，蛋白质分子间静电引力增大而聚集沉淀。',a:true},
+ {q:'超临界流体在临界点附近，压力的微小变化会引起密度的显著变化，从而改变其溶解能力。',a:true},
+ {q:'吸附剂使用后只能通过加热再生，不能采用化学洗脱的方法。',a:false},
+ {q:'分配系数K₀描述的是已解离形态溶质在两相中的总浓度之比。',a:false},
+ {q:'浓差极化是膜操作中可逆的浓度梯度现象，并不等同于膜污染。',a:true},
+ {q:'凝胶过滤色谱中，小分子进入凝胶颗粒内部，流出时间更晚。',a:true},
+ {q:'纳滤膜对Na+、Cl-等单价离子的截留率较低。',a:true},
+ {q:'酶溶法破碎细胞条件温和、对产物破坏小，且成本低，适合大规模工业生产。',a:false},
+ {q:'等电点沉淀法单独使用分离效果有限，常与盐析等方法配合使用。',a:true},
+ {q:'固体表面分子所受作用力是对称的。',a:false},
+ {q:'超滤过程依靠外加压力驱动，能够截留溶液中的小分子无机盐离子。',a:false},
+ {q:'电渗析分离的推动力是压力差。',a:false},
+ {q:'离子交换树脂再生的目的是恢复其交换吸附能力。',a:true},
+ {q:'多效蒸发的效数越多，设备投资越低，操作越经济。',a:false},
+ {q:'透析操作需要施加较高压力作为传质推动力。',a:false},
+ {q:'乳化现象只会在萃取过程中出现，在其他生物分离操作中不会出现。',a:false},
+ {q:'液膜萃取中，支撑液膜的膜相容易流失，需要频繁进行液膜再生。',a:true}
+];
+/* ===== 简答题：points 为打分点，answer 为参考答案 ===== */
+const ESSAY=[
+ {q:'简述凝集与絮凝在作用机理上的区别，并说明混凝的含义。',
+  points:['絮凝：絮凝剂架桥作用，交联成网，形成 10 mm 大絮团','凝集：投加化学物质使胶体脱稳，中和表面电荷、消除双电层，形成 1 mm 块状凝聚体','混凝：先凝聚脱稳、再絮凝长大的整套操作'],
+  answer:'絮凝是用絮凝剂将胶体粒子交联成网，形成10 mm大小絮凝团，原理是架桥作用；凝集是投加化学物质使胶体脱稳，粒子聚集成1 mm大小块状凝聚体，原理是中和粒子表面电荷、消除双电层结构等。先凝聚脱稳、再絮凝长大，整套操作叫做混凝。'},
+ {q:'简述超声波细胞破碎的原理、特点以及适用范围。',
+  points:['原理：空化效应，微小气泡生成、破裂产生冲击波和剪切力，破坏细胞膜释放胞内物质','特点：容易产热，需要冰水浴控温','适用：实验室小规模破碎，不适合工业大规模生产'],
+  answer:'超声波在液体中产生空化效应，不断生成、破裂微小气泡，产生强烈冲击波和剪切力，破坏细胞膜，使胞内物质释放出来。容易产热，需要冰水浴控温；适合实验室小规模破碎，不适合工业大规模生产。'},
+ {q:'简述膜污染的概念、主要危害以及缓解措施。',
+  points:['概念：微粒、胶体或大分子在膜表面或膜孔内吸附沉积，膜孔变小或堵塞，透过流量与分离特性不可逆变化','危害：膜通量下降、分离效果变差、膜寿命缩短','缓解：预处理料液、提高料液流速、定期清洗膜组件、选择合适的膜材料'],
+  answer:'膜污染是指处理物料中的微粒，胶体或溶质大分子在膜表面或膜孔内吸附，沉积造成膜孔径变小或堵塞，使膜产生透过流量与分离特性的不可逆变化现象。危害：膜通量下降、分离效果变差，膜的使用寿命缩短。缓解措施：预处理料液、提高料液流速、定期清洗膜组件、选择合适的膜材料。'},
+ {q:'简述薄层色谱（TLC）的基本操作步骤。',
+  points:['制板：吸附剂调浆均匀铺板，晾干、活化','点样：毛细管吸样，距底边 3 cm，斑点小而集中','展开：展开剂饱和，斑点不浸入液面，密闭展开','显色与计算 Rf：紫外检视或喷显色剂，测斑点与溶剂前沿距离算 Rf'],
+  answer:'制板：将吸附剂加水或黏合剂调成浆料，均匀铺在玻璃板上，晾干、活化备用；点样：毛细管吸取样品，在距薄板底边3 cm处点样，斑点尽量小而集中；展开：展开缸加入展开剂并饱和，薄板放入缸内，样品斑点不能浸入展开剂液面，密闭展开，到达合适位置后取出；薄板晾干，采用紫外检视或者喷显色剂显色；计算比移值（Rf）：测量斑点和溶剂前沿距离，计算Rf值，用于定性分析。'},
+ {q:'新鲜熟蛋黄看不到油，而熟咸蛋黄会有油滴析出，请说明原因。',
+  points:['新鲜蛋黄：脂肪与蛋白质结合成脂蛋白，被蛋白包裹分散，无游离油','腌制：食盐渗入，盐析作用破坏脂蛋白，蛋白质变性凝固','脂肪释放聚集，加热后形成肉眼可见的油滴'],
+  answer:'新鲜蛋黄里的脂肪不是游离油，和蛋白质结合形成脂蛋白，脂肪被蛋白包裹分散，所以看不到游离油。腌制时食盐渗入蛋黄，发生盐析作用，脂蛋白结构被破坏，蛋白质变性凝固。原本被蛋白束缚的脂肪释放、聚集，加热之后就形成肉眼可见的油滴。'},
+ {q:'简述发酵液中除去Ca²⁺、Mg²⁺、Fe³⁺的方法及原理。',
+  points:['Ca²⁺：加草酸或草酸钠，生成草酸钙沉淀','Mg²⁺：用三聚磷酸钠，形成可溶性络合物','Fe³⁺：加黄血盐（亚铁氰化钾），生成普鲁士蓝沉淀'],
+  answer:'加入草酸或草酸钠去除Ca²⁺，生成草酸钙沉淀。用三聚磷酸钠去除Mg²⁺，形成可溶性络合物。加入黄血盐（亚铁氰化钾）去除Fe³⁺，生成普鲁士蓝沉淀。'},
+ {q:'简述微滤、超滤、纳滤、反渗透区别。',
+  points:['孔径：微滤 0.1~10 μm ＞ 超滤 0.01~0.1 μm ＞ 纳滤 0.001~0.01 μm ＞ 反渗透 ＜0.001 μm','机理：微滤、超滤、纳滤为截留/筛分机理，反渗透是渗透现象的逆过程','压差：微滤、超滤、纳滤 0.1~0.6 MPa，反渗透 2~10 MPa'],
+  answer:'膜孔径：微滤0.1~10微米>超滤0.01~0.1微米>纳滤0.001~0.01微米>反渗透小于0.001微米。分离机理：微滤、超滤和纳滤为截留机理，筛分作用；反渗透机理是渗透现象的逆过程。压差：微滤、超滤和纳滤压力差不需很大0.1~0.6 MPa，反渗透2-10 MPa。'},
+ {q:'简述基因工程中包涵体的形成原因及纯化方法。',
+  points:['原因：外源蛋白过量快速表达，超出分子伴侣折叠能力，疏水区暴露聚集；原核还原环境不利于二硫键形成','纯化：收集菌体 → 细胞破碎 → 包涵体洗涤 → 变性溶解 → 复性'],
+  answer:'原因：外源重组蛋白在大肠杆菌等原核宿主中过量快速表达，超出细胞内分子伴侣的折叠能力；蛋白多肽链来不及正确折叠，疏水区域暴露，发生分子间疏水聚集，形成无活性、不溶性的致密蛋白聚集体（包涵体）；另外原核胞内还原环境不利于二硫键形成，也会加重聚集。纯化：收集菌体细胞、细胞破碎、包涵体的洗涤、目标蛋白的变性溶解、目标蛋白的复性。'},
+ {q:'简述浓差极化的产生原因及控制手段。',
+  points:['原因：溶剂透过膜，被截留溶质在膜面富集形成高浓度边界层，推动力下降、通量衰减，严重形成凝胶层','控制：提高错流流速增强湍流、湍流促进器、压力不超临界值、升温降黏度、预过滤或稀释、定期清洗反冲洗'],
+  answer:'（1）原因：压力驱动下溶剂不断透过膜，被截留的溶质在膜表面富集，形成浓度高于主体溶液的边界层，使有效推动力下降、通量衰减，严重时形成凝胶层。（2）控制：提高错流流速、增强膜面湍流；采用湍流促进器或薄流道组件；操作压力不超过临界值；提高温度降低黏度；料液预过滤或稀释；定期清洗、反冲洗。'},
+ {q:'简述结晶过程中初级成核与二次成核的区别。',
+  points:['初级成核：无现存晶体时自发形成，需高过饱和度，难控制、易爆发','二次成核：已有晶体，碰撞摩擦碎片诱发，需过饱和度低，工业主要成核方式'],
+  answer:'（1）初级成核：体系中没有现存晶体时，靠溶液自身过饱和自发形成新晶核，需要较高的过饱和度，成核难以控制、易爆发。（2）二次成核：体系中已存在晶体，由晶体表面、碰撞摩擦产生的微小晶核碎片诱发成核，所需过饱和度较低，是工业结晶中主要的成核方式。'},
+ {q:'简述膜分离技术的概念和主要特点。',
+  points:['概念：选择透过性薄膜为介质，推动力下某些组分选择性透过，实现分离、分级、提纯、富集和浓缩','特点：常温操作、物理过程不加试剂、不相变能耗低、选择性高、浓缩纯化一步完成、易放大可连续操作'],
+  answer:'膜分离技术是利用具有选择透过性的天然或合成薄膜为分离介质，在膜两侧推动力作用下，使原料液中某些组分选择性透过膜，实现混合物分离、分级、提纯、富集和浓缩的过程。其特点有操作在常温下进行；是物理过程，不需加化学试剂；不发生相变化，能耗低；选择性较高；浓缩和纯化可一步完成；设备易放大，可分批或连续操作。'},
+ {q:'什么是分配定律？应用前提条件是什么？',
+  points:['定义：一定 T、P 下，溶质在两互不相溶溶剂中分配达平衡时，两相浓度之比为常数','前提：稀溶液、溶质对溶剂互溶没有影响、同一分子类型不缔合不离解'],
+  answer:'分配定律是指一定T、P下，溶质在两个互不相溶的溶剂中分配，平衡时，溶质在两相中浓度之比为常数。应用前提条件是（1）稀溶液（2）溶质对溶剂互溶没有影响（3）必须是同一分子类型，不发生缔合或离解。'},
+ {q:'超临界流体的概念？超临界流体（SCF）指什么？',
+  points:['超临界萃取：利用超临界流体特殊性质，在超临界状态下接触物料萃取目的产物，再降压或升温使萃取物分离','SCF：处于临界温度、临界压力以上的流体；临界点以上无论压力多高都不能液化，密度随压力增高而增加'],
+  answer:'利用超临界流体的特殊性质，使其在超临界状态下，与待分离的物料（液体或固体）接触，萃取出目的产物，然后通过降压或升温的方法，使萃取物得到分离。超临界流体（SCF）即处于临界温度、临界压力以上的流体。在临界温度、压力以上，无论压力多高，流体都不能液化但流体的密度随压力增高而增加。'},
+ {q:'简述凝胶色谱法的原理和操作。',
+  points:['原理：按分子大小分离；大分子进不了凝胶孔穴路径最短先出，中等分子部分进入居中，小分子全进入路径最长最后出','操作：浸泡溶胀、装柱、加样、洗脱'],
+  answer:'凝胶色谱法是一种依据分子大小差异实现物质分离的液相色谱技术，其分离仅取决于凝胶颗粒的孔径大小与被分离物质的分子大小：大分子因直径大于凝胶孔径，无法进入凝胶内部孔穴，仅在颗粒空隙中随流动相移动，路径最短，最先被洗脱；中等分子可部分进入凝胶孔穴，移动路径中等，洗脱时间居中；小分子则能完全渗透进入所有凝胶孔穴，移动路径最长，被滞留时间最长，最终出柱顺序为大分子先出，其次是中等分子，小分子最后流出。其标准操作流程为浸泡溶胀、装柱、加样、洗脱。'},
+ {q:'简述蒸发浓缩的概念和目的。',
+  points:['概念：加热使部分溶剂汽化除去，得到较高浓度溶质','目的：提高产物浓度、减少溶液体积、回收溶剂'],
+  answer:'蒸发浓缩是利用加热的方法使溶液中的一部分溶剂汽化后除去，得到含较高浓度的溶质的一种操作。目的分别是提高产物的浓度；减少溶液的体积；回收溶剂。'}
+];
+/* ===== 题库汇总 ===== */
+const ALL=[];
+FILL.forEach((f,i)=>ALL.push({id:'fill-'+i,type:'fill',...f}));
+SINGLE.forEach((s,i)=>ALL.push({id:'single-'+i,type:'single',...s}));
+MULTI.forEach((m,i)=>ALL.push({id:'multi-'+i,type:'multi',...m}));
+JUDGE.forEach((j,i)=>ALL.push({id:'judge-'+i,type:'judge',...j}));
+const BY_ID={};ALL.forEach(q=>BY_ID[q.id]=q);
+const TYPE_NAME={fill:'填空',single:'单选',multi:'多选',judge:'判断'};
+const LETTERS=['A','B','C','D','E','F'];
+/* ===== 状态与本地存储 ===== */
+const $=id=>document.getElementById(id);
+const store={
+get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}},
+set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+};
+let mode='all';
+let quiz=[];
+let answers={};
+let submitted=false;
+let startTime=Date.now();
+let onlyWrong=false;
+let wrongSet=new Set(store.get('shfl_wrong_v1',[]));
+let best=store.get('shfl_best_v1',{});
+let essayMarks=store.get('shfl_essay_v1',{});
+let essayDrafts=store.get('shfl_essay_draft_v1',{});
+let essayFilter='all';
+/* ===== 工具 ===== */
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+function norm(s){return String(s||'').replace(/[\s,.，。、；;：:()（）\[\]'"“”‘’·・-]/g,'').toLowerCase();}
+function blankCorrect(input,variants){
+const n=norm(input);
+if(!n)return false;
+return variants.some(v=>{
+const na=norm(v);
+if(!na)return false;
+if(n===na)return true;
+if(na.length>=2&&n.length>=2&&(n.includes(na)||na.includes(n)))return true;
+return false;
+});
+}
+let toastTimer=null;
+function showToast(msg){
+const t=$('toast');t.textContent=msg;t.classList.remove('hidden');
+clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.add('hidden'),3000);
+}
+function fmtTime(ms){
+const s=Math.floor(ms/1000);
+return Math.floor(s/60)+'分'+String(s%60).padStart(2,'0')+'秒';
+}
+/* ===== 出题 ===== */
+function buildQuiz(){
+let pool;
+if(mode==='wrong')pool=[...wrongSet].map(id=>BY_ID[id]).filter(Boolean);
+else if(mode==='all')pool=[...ALL];
+else pool=ALL.filter(q=>q.type===mode);
+quiz=shuffle(pool).map(q=>{
+if(q.type==='single'||q.type==='multi'){
+const idx=shuffle(q.o.map((_,i)=>i));
+const o=idx.map(i=>q.o[i]);
+const a=q.type==='single'?idx.indexOf(q.a):q.a.map(v=>idx.indexOf(v)).sort((x,y)=>x-y);
+return {...q,o,a};
+}
+return {...q};
+});
+answers={};submitted=false;onlyWrong=false;startTime=Date.now();
+renderQuiz();updateProgress();renderScorePanel(null);
+$('submitBtn').textContent='交卷判分';
+updateBestLine();
+}
+function updateBestLine(){
+const b=best[mode];
+$('bestLine').textContent=b?('历史最佳：'+b.score+' / '+b.total):'';
+$('wrongCount').textContent=wrongSet.size?'('+wrongSet.size+')':'';
+}
+/* ===== 渲染题目 ===== */
+function fillStemHTML(q){
+const parts=q.q.split('___');
+let html='';
+parts.forEach((p,i)=>{
+html+=escapeHtml(p);
+if(i<parts.length-1)html+='<span class="blank" data-blank="'+i+'"><input type="text" data-qid="'+q.id+'" data-bi="'+i+'" autocomplete="off" autocapitalize="off"></span>';
+});
+return html;
+}
+function renderQCard(q,i){
+const card=document.createElement('div');
+card.className='qcard';card.dataset.qid=q.id;
+let body='';
+if(q.type==='fill'){
+body='<div class="qstem">'+fillStemHTML(q)+'</div>';
+}else if(q.type==='single'||q.type==='multi'){
+body='<div class="qstem">'+escapeHtml(q.q)+'</div><div class="opts">'
++q.o.map((o,oi)=>'<div class="opt'+(q.type==='multi'?' multi':'')+'" data-qid="'+q.id+'" data-oi="'+oi+'"><span class="key">'+LETTERS[oi]+'</span><span>'+escapeHtml(o)+'</span></div>').join('')+'</div>';
+}else{
+body='<div class="qstem">'+escapeHtml(q.q)+'</div><div class="judge-row">'
++'<button data-qid="'+q.id+'" data-val="true">✓ 正确</button><button data-qid="'+q.id+'" data-val="false">✗ 错误</button></div>';
+}
+card.innerHTML='<div class="qhead"><span class="qnum">'+(i+1)+'.</span><span class="tag '+q.type+'">'+TYPE_NAME[q.type]+'</span><span class="mark"></span></div>'+body+'<div class="fb"></div>';
+return card;
+}
+function renderQuiz(){
+const list=$('quizList');list.innerHTML='';
+if(!quiz.length){
+list.innerHTML='<section class="card"><p style="margin:0">'+(mode==='wrong'?'错题本是空的，先去刷一套题吧，答错的题会自动收进这里。':'没有题目。')+'</p></section>';
+$('bottomBar').classList.add('hidden');
+return;
+}
+quiz.forEach((q,i)=>list.appendChild(renderQCard(q,i)));
+if(document.querySelector('#tabSeg button.on').dataset.tab==='quiz')$('bottomBar').classList.remove('hidden');
+}
+function syncCardSelection(qid){
+const card=document.querySelector('.qcard[data-qid="'+qid+'"]');
+if(!card)return;
+const q=quiz.find(x=>x.id===qid);
+if(q.type==='single'||q.type==='multi'){
+const sel=q.type==='single'?(answers[qid]==null?[]:[answers[qid]]):(answers[qid]||[]);
+card.querySelectorAll('.opt').forEach(o=>o.classList.toggle('sel',sel.includes(+o.dataset.oi)));
+}else if(q.type==='judge'){
+card.querySelectorAll('.judge-row button').forEach(b=>b.classList.toggle('sel',answers[qid]!=null&&String(answers[qid])===b.dataset.val));
+}
+}
+function isAnswered(q){
+const a=answers[q.id];
+if(q.type==='fill')return (a||[]).some(v=>(v||'').trim()!=='');
+if(q.type==='single'||q.type==='judge')return a!=null;
+return (a||[]).length>0;
+}
+function updateProgress(){
+const n=quiz.filter(isAnswered).length;
+$('progressText').innerHTML='已答 <b>'+n+'</b> / '+quiz.length+' 题';
+}
+/* ===== 答题交互（事件委托） ===== */
+$('quizList').addEventListener('click',e=>{
+if(submitted)return;
+const opt=e.target.closest('.opt');
+if(opt){
+const qid=opt.dataset.qid,oi=+opt.dataset.oi;
+const q=quiz.find(x=>x.id===qid);
+if(q.type==='single')answers[qid]=oi;
+else{
+const arr=[...(answers[qid]||[])];
+const ix=arr.indexOf(oi);
+if(ix>=0)arr.splice(ix,1);else arr.push(oi);
+answers[qid]=arr;
+}
+syncCardSelection(qid);updateProgress();
+return;
+}
+const jb=e.target.closest('.judge-row button');
+if(jb){
+answers[jb.dataset.qid]=jb.dataset.val==='true';
+syncCardSelection(jb.dataset.qid);updateProgress();
+}
+});
+$('quizList').addEventListener('input',e=>{
+const inp=e.target.closest('.blank input');
+if(!inp||submitted)return;
+const arr=[...(answers[inp.dataset.qid]||[])];
+arr[+inp.dataset.bi]=inp.value;
+answers[inp.dataset.qid]=arr;
+updateProgress();
+});
+/* ===== 判分 ===== */
+function gradeAll(){
+let score=0,total=0;
+const results={};
+for(const q of quiz){
+if(q.type==='fill'){
+const user=answers[q.id]||[];
+const perBlank=q.a.map((variants,bi)=>blankCorrect(user[bi],variants));
+score+=perBlank.filter(Boolean).length;total+=q.a.length;
+results[q.id]={ok:perBlank.every(Boolean),perBlank};
+}else if(q.type==='single'){
+total++;
+const ok=answers[q.id]===q.a;
+if(ok)score++;
+results[q.id]={ok};
+}else if(q.type==='multi'){
+total++;
+const u=[...(answers[q.id]||[])].sort((a,b)=>a-b);
+const ok=JSON.stringify(u)===JSON.stringify(q.a);
+if(ok)score++;
+results[q.id]={ok};
+}else{
+total++;
+const ok=answers[q.id]===q.a;
+if(ok)score++;
+results[q.id]={ok};
+}
+}
+return {score,total,results};
+}
+function applyGrading(results){
+for(const q of quiz){
+const r=results[q.id];
+const card=document.querySelector('.qcard[data-qid="'+q.id+'"]');
+if(!card)continue;
+card.querySelector('.mark').textContent=r.ok?'✓':'✗';
+card.querySelector('.mark').className='mark '+(r.ok?'ok':'no');
+const fb=card.querySelector('.fb');
+if(q.type==='fill'){
+card.querySelectorAll('.blank').forEach((sp,bi)=>{
+const inp=sp.querySelector('input');inp.disabled=true;
+sp.style.borderColor=r.perBlank[bi]?'#2e7d32':'#c62828';
+});
+if(r.ok){fb.className='fb show ok';fb.textContent='回答正确 ✓';}
+else{
+fb.className='fb show no';
+fb.innerHTML='正确答案：'+q.a.map((v,bi)=>{
+const u=(answers[q.id]||[])[bi]||'';
+return '第'+(bi+1)+'空 <span class="ans">'+escapeHtml(v[0])+'</span>'+(r.perBlank[bi]?' ✓':'（你填：'+escapeHtml(u||'未填')+'）');
+}).join('；');
+}
+}else if(q.type==='single'||q.type==='multi'){
+const sel=q.type==='single'?(answers[q.id]==null?[]:[answers[q.id]]):(answers[q.id]||[]);
+const correctSet=new Set(q.type==='single'?[q.a]:q.a);
+card.querySelectorAll('.opt').forEach(o=>{
+const oi=+o.dataset.oi;
+o.style.pointerEvents='none';
+if(correctSet.has(oi))o.classList.add('right');
+else if(sel.includes(oi))o.classList.add('wrong');
+else o.classList.add('dim');
+});
+const ansText=(q.type==='single'?[q.a]:q.a).map(i=>LETTERS[i]).join(' ');
+if(r.ok){fb.className='fb show ok';fb.textContent='回答正确 ✓';}
+else{fb.className='fb show no';fb.innerHTML='正确答案：<span class="ans">'+ansText+'</span>';}
+}else{
+card.querySelectorAll('.judge-row button').forEach(b=>{
+b.disabled=true;
+const val=b.dataset.val==='true';
+if(val===q.a)b.classList.add('right');
+else if(answers[q.id]!=null&&answers[q.id]===val)b.classList.add('wrong');
+});
+if(r.ok){fb.className='fb show ok';fb.textContent='回答正确 ✓';}
+else{fb.className='fb show no';fb.innerHTML='正确答案：<span class="ans">'+(q.a?'✓ 正确':'✗ 错误')+'</span>';}
+}
+}
+}
+function renderScorePanel(res){
+const p=$('scorePanel');
+if(!res){p.innerHTML='';return;}
+const wrongCount=quiz.filter(q=>!res.results[q.id].ok).length;
+const pct=res.total?Math.round(res.score/res.total*100):0;
+p.innerHTML='<div class="score"><div class="big">得分 '+res.score+' / '+res.total+'（'+pct+'%）</div>'
++'<div class="sm">用时 '+fmtTime(res.used)+' · 答对 '+quiz.filter(q=>res.results[q.id].ok).length+' 题，答错 '+wrongCount+' 题</div>'
++'<div class="acts">'
++(wrongCount?'<button class="btn white" id="retryWrongBtn">错题重做（'+wrongCount+'）</button>':'')
++'<button class="btn white" id="againBtn">再来一套</button>'
++(wrongCount?'<button class="btn white" id="onlyWrongBtn">只看错题</button>':'')
++'</div></div>';
+const rw=$('retryWrongBtn');
+if(rw)rw.addEventListener('click',()=>{
+mode='wrong';syncModeChips();buildQuiz();
+window.scrollTo({top:0,behavior:'smooth'});
+});
+$('againBtn').addEventListener('click',()=>{buildQuiz();window.scrollTo({top:0,behavior:'smooth'});});
+const ow=$('onlyWrongBtn');
+if(ow)ow.addEventListener('click',()=>{
+onlyWrong=!onlyWrong;
+ow.textContent=onlyWrong?'显示全部':'只看错题';
+document.querySelectorAll('.qcard').forEach(c=>{
+const qid=c.dataset.qid;
+c.style.display=(onlyWrong&&res.results[qid].ok)?'none':'';
+});
+});
+}
+function submitQuiz(){
+if(submitted){buildQuiz();window.scrollTo({top:0,behavior:'smooth'});return;}
+if(!quiz.length)return;
+const unanswered=quiz.filter(q=>!isAnswered(q)).length;
+if(unanswered>0&&!confirm('还有 '+unanswered+' 道题没答，确定交卷吗？'))return;
+submitted=true;
+const res=gradeAll();
+res.used=Date.now()-startTime;
+for(const q of quiz){
+if(res.results[q.id].ok)wrongSet.delete(q.id);
+else wrongSet.add(q.id);
+}
+store.set('shfl_wrong_v1',[...wrongSet]);
+if(!best[mode]||res.score>best[mode].score)best[mode]={score:res.score,total:res.total};
+store.set('shfl_best_v1',best);
+applyGrading(res.results);
+renderScorePanel(res);
+updateBestLine();
+$('progressText').innerHTML='得分 <b>'+res.score+'</b> / '+res.total;
+$('submitBtn').textContent='再来一套';
+window.scrollTo({top:0,behavior:'smooth'});
+}
+$('submitBtn').addEventListener('click',submitQuiz);
+/* ===== 模式切换 ===== */
+function syncModeChips(){
+document.querySelectorAll('#modeChips.chip').forEach(c=>c.classList.toggle('on',c.dataset.mode===mode));
+}
+document.querySelectorAll('#modeChips.chip').forEach(c=>{
+c.addEventListener('click',()=>{mode=c.dataset.mode;syncModeChips();buildQuiz();});
+});
+$('reshuffleBtn').addEventListener('click',()=>{buildQuiz();showToast('已重新打乱出题');});
+/* ===== 简答题 ===== */
+function updateEssayProg(){
+const done=Object.keys(essayMarks).filter(k=>essayMarks[k]==='ok').length;
+$('essayProg').textContent='已掌握 '+done+' / '+ESSAY.length;
+}
+function renderEssay(){
+const list=$('essayList');list.innerHTML='';
+ESSAY.forEach((e,i)=>{
+if(essayFilter==='todo'&&essayMarks[i]==='ok')return;
+if(essayFilter==='done'&&essayMarks[i]!=='ok')return;
+const card=document.createElement('div');
+card.className='qcard';
+if(essayMarks[i]==='ok')card.style.borderLeft='4px solid #2e7d32';
+else if(essayMarks[i]==='no')card.style.borderLeft='4px solid #e0a030';
+card.innerHTML='<div class="qhead"><span class="qnum">'+(i+1)+'.</span><span class="tag">简答</span>'
++(essayMarks[i]==='ok'?'<span class="mark ok">已掌握</span>':essayMarks[i]==='no'?'<span class="mark no">还要背</span>':'<span class="mark"></span>')+'</div>'
++'<div class="qstem">'+escapeHtml(e.q)+'</div>'
++'<textarea placeholder="先自己写出要点，再对照参考答案…" data-draft="'+i+'">'+escapeHtml(essayDrafts[i]||'')+'</textarea>'
++'<div style="margin-top:8px"><button class="btn small ghost" data-reveal="'+i+'">看参考答案</button></div>'
++'<div class="ansArea hidden" data-ans="'+i+'"><ul class="pts">'
++e.points.map(p=>'<li>'+escapeHtml(p)+'</li>').join('')+'</ul>'
++'<div class="fullans">'+escapeHtml(e.answer)+'</div>'
++'<div style="margin-top:10px;display:flex;gap:8px"><button class="btn small" data-mark-ok="'+i+'">记住了 ✓</button><button class="btn small ghost" data-mark-no="'+i+'">还要背</button></div></div>'
++'<div class="ekey">打分点 '+e.points.length+' 个 · 对照上面的点自评</div>';
+list.appendChild(card);
+});
+if(!list.children.length)list.innerHTML='<section class="card"><p style="margin:0">这里没有题目。</p></section>';
+updateEssayProg();
+}
+$('essayList').addEventListener('click',e=>{
+const rv=e.target.closest('[data-reveal]');
+if(rv){
+const area=document.querySelector('[data-ans="'+rv.dataset.reveal+'"]');
+const hidden=area.classList.toggle('hidden');
+rv.textContent=hidden?'看参考答案':'收起答案';
+return;
+}
+const ok=e.target.closest('[data-mark-ok]');
+const no=e.target.closest('[data-mark-no]');
+if(ok){essayMarks[ok.dataset.markOk]='ok';store.set('shfl_essay_v1',essayMarks);renderEssay();}
+if(no){essayMarks[no.dataset.markNo]='no';store.set('shfl_essay_v1',essayMarks);renderEssay();}
+});
+$('essayList').addEventListener('input',e=>{
+const ta=e.target.closest('textarea[data-draft]');
+if(ta){essayDrafts[ta.dataset.draft]=ta.value;store.set('shfl_essay_draft_v1',essayDrafts);}
+});
+document.querySelectorAll('#essayChips.chip').forEach(c=>{
+c.addEventListener('click',()=>{
+essayFilter=c.dataset.ef;
+document.querySelectorAll('#essayChips.chip').forEach(x=>x.classList.toggle('on',x===c));
+renderEssay();
+});
+});
+/* ===== 标签页 ===== */
+document.querySelectorAll('#tabSeg button').forEach(b=>{
+b.addEventListener('click',()=>{
+document.querySelectorAll('#tabSeg button').forEach(x=>x.classList.toggle('on',x===b));
+const tab=b.dataset.tab;
+['quiz','essay','cheat','setup'].forEach(t=>$('tab-'+t).classList.toggle('hidden',t!==tab));
+$('bottomBar').classList.toggle('hidden',!(tab==='quiz'&&quiz.length));
+window.scrollTo({top:0});
+});
+});
+/* ===== 设置 ===== */
+$('clearAllBtn').addEventListener('click',()=>{
+if(!confirm('清除全部刷题记录、错题本和简答自评吗？'))return;
+['shfl_wrong_v1','shfl_best_v1','shfl_essay_v1','shfl_essay_draft_v1'].forEach(k=>{try{localStorage.removeItem(k);}catch(e){}});
+wrongSet=new Set();best={};essayMarks={};essayDrafts={};
+mode='all';syncModeChips();buildQuiz();renderEssay();
+showToast('已清除全部记录');
+});
+/* ===== 初始化 ===== */
+buildQuiz();
+renderEssay();
+if('serviceWorker' in navigator){
+navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
