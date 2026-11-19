@@ -26,6 +26,10 @@ h1{font-size:20px;margin:2px 0 2px}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .chip{border:1px solid #ccd6f2;background:#fff;border-radius:20px;padding:6px 13px;font-size:13px;cursor:pointer;color:#3d4f86}
 .chip.on{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:700}
+.pickgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pick{border:1px solid #ccd6f2;background:#fff;border-radius:13px;padding:16px 10px;cursor:pointer;text-align:center}
+.pick b{display:block;font-size:17px;color:var(--blue-d)}
+.pick span{font-size:12px;color:var(--muted)}
 .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 15px;margin-bottom:10px}
 .qhead{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .qnum{font-weight:700;font-size:13px;color:#999}
@@ -111,6 +115,18 @@ footer{text-align:center;color:#999;font-size:12px;margin-top:18px;line-height:1
   </div>
 
   <section id="tab-quiz">
+    <div id="typePicker">
+      <p class="muted" style="margin:0 0 10px">先选一种题型，再开始刷：</p>
+      <div class="pickgrid">
+        <button class="pick" data-mode="fill"><b>填空</b><span>20 题</span></button>
+        <button class="pick" data-mode="single"><b>单选</b><span>20 题</span></button>
+        <button class="pick" data-mode="multi"><b>多选</b><span>10 题</span></button>
+        <button class="pick" data-mode="judge"><b>判断</b><span>20 题</span></button>
+        <button class="pick" data-mode="wrong"><b>错题本</b><span id="wrongCount2">0 题</span></button>
+        <button class="pick" data-mode="all"><b>全部</b><span>70 题</span></button>
+      </div>
+      <p class="muted" style="margin:10px 0 0">一次只刷一种题型；错题会自动收进错题本。</p>
+    </div>
     <div class="chips" id="modeChips">
       <button class="chip on" data-mode="all">全部 70 题</button>
       <button class="chip" data-mode="fill">填空 20</button>
@@ -119,9 +135,10 @@ footer{text-align:center;color:#999;font-size:12px;margin-top:18px;line-height:1
       <button class="chip" data-mode="judge">判断 20</button>
       <button class="chip" data-mode="wrong">错题本 <span id="wrongCount"></span></button>
     </div>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+    <div id="quizMetaRow" style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
       <span class="muted" id="bestLine"></span>
-      <button class="btn small ghost" id="reshuffleBtn" style="margin-left:auto">重新出题（打乱）</button>
+      <button class="btn small ghost" id="changeModeBtn" style="margin-left:auto">换一类</button>
+      <button class="btn small ghost" id="reshuffleBtn">重新出题（打乱）</button>
     </div>
     <div id="scorePanel"></div>
     <div id="quizList"></div>
@@ -420,6 +437,11 @@ return {...q};
 });
 answers={};submitted=false;onlyWrong=false;startTime=Date.now();
 renderQuiz();updateProgress();renderScorePanel(null);
+$('typePicker').classList.add('hidden');
+$('modeChips').classList.remove('hidden');
+$('quizMetaRow').classList.remove('hidden');
+$('scorePanel').classList.remove('hidden');
+$('quizList').classList.remove('hidden');
 $('submitBtn').textContent='交卷判分';
 updateBestLine();
 }
@@ -427,6 +449,7 @@ function updateBestLine(){
 const b=best[mode];
 $('bestLine').textContent=b?('历史最佳：'+b.score+' / '+b.total):'';
 $('wrongCount').textContent=wrongSet.size?'('+wrongSet.size+')':'';
+$('wrongCount2').textContent=wrongSet.size+' 题';
 }
 /* ===== 渲染题目 ===== */
 function fillStemHTML(q){
@@ -651,6 +674,23 @@ document.querySelectorAll('#modeChips.chip').forEach(c=>{
 c.addEventListener('click',()=>{mode=c.dataset.mode;syncModeChips();buildQuiz();});
 });
 $('reshuffleBtn').addEventListener('click',()=>{buildQuiz();showToast('已重新打乱出题');});
+/* ===== 题型选择页：打开先选一种题型，不再默认一次刷全部 ===== */
+function showPicker(){
+  $('typePicker').classList.remove('hidden');
+  $('modeChips').classList.add('hidden');
+  $('quizMetaRow').classList.add('hidden');
+  $('scorePanel').classList.add('hidden');
+  $('quizList').classList.add('hidden');
+  $('bottomBar').classList.add('hidden');
+  updateBestLine();
+}
+document.querySelectorAll('#typePicker .pick').forEach(b=>{
+  b.addEventListener('click',()=>{
+    mode=b.dataset.mode;syncModeChips();buildQuiz();
+    window.scrollTo({top:0});
+  });
+});
+$('changeModeBtn').addEventListener('click',showPicker);
 /* ===== 简答题 ===== */
 function updateEssayProg(){
 const done=Object.keys(essayMarks).filter(k=>essayMarks[k]==='ok').length;
@@ -723,7 +763,7 @@ mode='all';syncModeChips();buildQuiz();renderEssay();
 showToast('已清除全部记录');
 });
 /* ===== 初始化 ===== */
-buildQuiz();
+showPicker();
 renderEssay();
 if('serviceWorker' in navigator){
 navigator.serviceWorker.register('sw.js').catch(()=>{});
