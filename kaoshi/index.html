@@ -167,6 +167,21 @@ footer{text-align:center;color:#999;font-size:12px;margin-top:18px;line-height:1
       </table>
     </section>
     <section class="card">
+      <h2>萃取公式（9分计算题）</h2>
+      <p><b>萃取因素</b> E = X<sub>S</sub>/X<sub>F</sub> = (V<sub>S</sub>·C<sub>S</sub>)/(V<sub>F</sub>·C<sub>F</sub>) = K·V<sub>S</sub>/V<sub>F</sub></p>
+      <p class="muted" style="margin:4px 0 8px">X<sub>S</sub>、X<sub>F</sub>：萃取液、萃余液中溶质总量；V<sub>S</sub>、V<sub>F</sub>：萃取剂、料液体积；K：分配系数。</p>
+      <table>
+        <tr><th>方式</th><th>未被萃取分率 φ<sub>n</sub></th><th>理论收率 1−φ<sub>n</sub></th></tr>
+        <tr><td><b>单级萃取</b></td><td>φ = 1/(E+1)</td><td>1−φ = E/(E+1)</td></tr>
+        <tr><td><b>多级错流萃取</b></td><td>φ<sub>n</sub> = 1/(E+1)<sup>n</sup></td><td>1−φ<sub>n</sub> = 1 − 1/(E+1)<sup>n</sup></td></tr>
+        <tr><td><b>多级逆流萃取</b></td><td>φ<sub>n</sub> = (E−1)/(E<sup>n+1</sup>−1)</td><td>1−φ<sub>n</sub> = (E<sup>n+1</sup>−E)/(E<sup>n+1</sup>−1)</td></tr>
+      </table>
+      <p style="margin:10px 0 4px"><b>适用条件</b>：萃取相与萃余相很快达到平衡；两相完全不互溶、完全分离；每级萃取因素 E 相同。</p>
+      <p style="margin:4px 0"><b>弱酸性电解质</b>：K = K<sub>0</sub>·[H<sup>+</sup>]/(K<sub>p</sub>+[H<sup>+</sup>]) = K<sub>0</sub>/(1+10<sup>pH−pK</sup>)</p>
+      <p style="margin:4px 0"><b>弱碱性电解质</b>：K = K<sub>0</sub>·K<sub>p</sub>/(K<sub>p</sub>+[H<sup>+</sup>]) = K<sub>0</sub>/(1+10<sup>pK−pH</sup>)</p>
+      <p class="muted" style="margin:8px 0 0">K<sub>0</sub> 只与 T、P 有关；K 与 T、P 和 pH 有关；K 可实验测出，K<sub>0</sub> 不能，由公式求出。例：青霉素（pK 2.75）工业钾盐，调 pH 2.0~2.5，1/3 v/v，丁酯逆流萃取。</p>
+    </section>
+    <section class="card">
       <h2>凝集 vs 絮凝</h2>
       <table>
         <tr><th></th><th>机理</th><th>产物</th></tr>

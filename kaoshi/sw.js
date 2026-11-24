@@ -1,5 +1,5 @@
 /* 生化分离考试刷题 · 离线缓存 */
-const CACHE = 'shfl-kaoshi-v2';
+const CACHE = 'shfl-kaoshi-v3';
 const ASSETS = ['./', 'index.html', 'manifest.json', 'icon.svg'];
 
 self.addEventListener('install', event => {
